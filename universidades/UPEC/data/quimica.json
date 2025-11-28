@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "pregunta": "El símbolo químico del oro es:",
+        "opciones": {
+            "A": "Au",
+            "B": "Ag",
+            "C": "Go",
+            "D": "Or"
+        },
+        "respuesta_correcta": "A"
+    },
+    {
+        "id": 2,
+        "pregunta": "El agua está compuesta por:",
+        "opciones": {
+            "A": "H₂O",
+            "B": "H₂O₂",
+            "C": "HO",
+            "D": "H₃O"
+        },
+        "respuesta_correcta": "A"
+    },
+    {
+        "id": 3,
+        "pregunta": "El número atómico del carbono es:",
+        "opciones": {
+            "A": "4",
+            "B": "6",
+            "C": "8",
+            "D": "12"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 4,
+        "pregunta": "Un ácido tiene pH:",
+        "opciones": {
+            "A": "Mayor a 7",
+            "B": "Igual a 7",
+            "C": "Menor a 7",
+            "D": "Igual a 14"
+        },
+        "respuesta_correcta": "C"
+    },
+    {
+        "id": 5,
+        "pregunta": "La tabla periódica fue creada por:",
+        "opciones": {
+            "A": "Newton",
+            "B": "Einstein",
+            "C": "Mendeleev",
+            "D": "Curie"
+        },
+        "respuesta_correcta": "C"
+    }
+]

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador UPEC - Sparta Academy</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <style>
+        .simulador-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .materia-selector {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 30px;
+        }
+
+        .materia-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .materia-card {
+            padding: 20px;
+            background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+            color: white;
+            border-radius: 10px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .materia-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
+        }
+
+        .instrucciones {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .instrucciones.active {
+            display: block;
+        }
+
+        .instrucciones h2 {
+            color: #C9A961;
+            margin-bottom: 20px;
+        }
+
+        .instrucciones h3 {
+            color: #333;
+            margin: 20px 0 15px;
+        }
+
+        .instrucciones ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .instrucciones li {
+            padding: 10px 0;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .btn-comenzar {
+            padding: 15px 40px;
+            background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-comenzar:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(39, 174, 96, 0.4);
+        }
+
+        .examen-container {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+        }
+
+        .examen-container.active {
+            display: block;
+        }
+
+        .cronometro {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: #e74c3c;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 10px;
+            font-size: 24px;
+            font-weight: bold;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 100;
+        }
+
+        .pregunta-actual {
+            margin-bottom: 30px;
+        }
+
+        .pregunta-numero {
+            color: #C9A961;
+            font-weight: bold;
+            margin-bottom: 15px;
+            font-size: 16px;
+        }
+
+        .pregunta-texto {
+            font-size: 18px;
+            margin-bottom: 20px;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .opciones {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .opcion {
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .opcion:hover {
+            border-color: #C9A961;
+            background: #f8f9fa;
+        }
+
+        .opcion.selected {
+            border-color: #C9A961;
+            background: #FFF8E7;
+        }
+
+        .btn-siguiente {
+            padding: 12px 30px;
+            background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+
+        .btn-siguiente:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(201, 169, 97, 0.4);
+        }
+
+        .btn-terminar {
+            background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+        }
+
+        .resultados-container {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+            display: none;
+            text-align: center;
+        }
+
+        .resultados-container.active {
+            display: block;
+        }
+
+        .puntaje-final {
+            font-size: 48px;
+            color: #C9A961;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .estadisticas {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 20px;
+            margin: 30px 0;
+        }
+
+        .estadistica {
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .estadistica h3 {
+            color: #C9A961;
+            font-size: 32px;
+            margin-bottom: 10px;
+        }
+
+        .estadistica p {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .revision-pregunta {
+            text-align: left;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            margin-bottom: 15px;
+        }
+
+        .respuesta-correcta {
+            color: #27ae60;
+            font-weight: bold;
+        }
+
+        .respuesta-incorrecta {
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .cronometro {
+                top: auto;
+                bottom: 20px;
+                right: 50%;
+                transform: translateX(50%);
+            }
+
+            .estadisticas {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <img src="../../assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="btnVolver" class="btn-header">Volver al Inicio</button>
+                <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <main class="simulador-container">
+        <div class="materia-selector" id="materiaSelector">
+            <h1>Simulador UPEC</h1>
+            <p>Universidad Politécnica Estatal del Carchi</p>
+            <p style="margin-top: 15px;">Selecciona la materia para comenzar tu simulador</p>
+            <div class="materia-grid" id="materiaGrid"></div>
+        </div>
+
+        <div class="instrucciones" id="instrucciones">
+            <h2 id="materiaNombre"></h2>
+            <h3>📋 Instrucciones del Examen</h3>
+            <ul>
+                <li>✅ El examen consta de <strong>50 preguntas</strong></li>
+                <li>⏱️ Tienes <strong>1 hora (60 minutos)</strong> para completar el examen</li>
+                <li>📝 Las preguntas son de selección múltiple</li>
+                <li>⚠️ Una vez que pases a la siguiente pregunta, <strong>no podrás regresar</strong></li>
+                <li>⏰ Al finalizar el tiempo, el examen se cerrará automáticamente</li>
+                <li>💡 Asegúrate de responder todas las preguntas antes de terminar</li>
+            </ul>
+            <button class="btn-comenzar" id="btnComenzar">🚀 Comenzar Examen</button>
+        </div>
+
+        <div class="cronometro" id="cronometro" style="display: none;">60:00</div>
+
+        <div class="examen-container" id="examenContainer">
+            <div class="pregunta-actual" id="preguntaActual"></div>
+            <button class="btn-siguiente" id="btnSiguiente">Siguiente</button>
+        </div>
+
+        <div class="resultados-container" id="resultadosContainer">
+            <h1>¡Examen Completado! 🎉</h1>
+            <div class="puntaje-final" id="puntajeFinal"></div>
+            <div class="estadisticas" id="estadisticas"></div>
+            <h3 style="margin: 30px 0 20px;">📊 Revisión de Preguntas</h3>
+            <div id="revisionPreguntas"></div>
+            <div style="display: flex; gap: 15px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
+                <button class="btn-comenzar" id="btnOtroIntento">🔄 Realizar Otro Intento</button>
+                <button class="btn-header" id="btnVolverInicio" style="padding: 15px 40px;">🏠 Volver al Inicio</button>
+            </div>
+        </div>
+    </main>
+
+    <!-- CDN de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-client.js"></script>
+    <script src="simulador.js"></script>
+</body>
+
+</html>

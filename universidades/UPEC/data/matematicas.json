@@ -1,0 +1,112 @@
+[
+    {
+        "id": 1,
+        "pregunta": "¿Cuánto es 2 + 2?",
+        "opciones": {
+            "A": "3",
+            "B": "4",
+            "C": "5",
+            "D": "6"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 2,
+        "pregunta": "¿Cuál es el valor de π (pi) aproximado?",
+        "opciones": {
+            "A": "3.14",
+            "B": "2.71",
+            "C": "1.61",
+            "D": "4.20"
+        },
+        "respuesta_correcta": "A"
+    },
+    {
+        "id": 3,
+        "pregunta": "¿Cuánto es 5 × 8?",
+        "opciones": {
+            "A": "35",
+            "B": "40",
+            "C": "45",
+            "D": "50"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 4,
+        "pregunta": "La raíz cuadrada de 144 es:",
+        "opciones": {
+            "A": "10",
+            "B": "11",
+            "C": "12",
+            "D": "13"
+        },
+        "respuesta_correcta": "C"
+    },
+    {
+        "id": 5,
+        "pregunta": "¿Cuánto es 100 ÷ 4?",
+        "opciones": {
+            "A": "20",
+            "B": "25",
+            "C": "30",
+            "D": "35"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 6,
+        "pregunta": "El resultado de 2³ es:",
+        "opciones": {
+            "A": "6",
+            "B": "8",
+            "C": "9",
+            "D": "12"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 7,
+        "pregunta": "¿Cuál es el 50% de 200?",
+        "opciones": {
+            "A": "50",
+            "B": "75",
+            "C": "100",
+            "D": "125"
+        },
+        "respuesta_correcta": "C"
+    },
+    {
+        "id": 8,
+        "pregunta": "El valor absoluto de -15 es:",
+        "opciones": {
+            "A": "-15",
+            "B": "0",
+            "C": "15",
+            "D": "30"
+        },
+        "respuesta_correcta": "C"
+    },
+    {
+        "id": 9,
+        "pregunta": "¿Cuánto es 7² - 3²?",
+        "opciones": {
+            "A": "16",
+            "B": "30",
+            "C": "40",
+            "D": "58"
+        },
+        "respuesta_correcta": "C"
+    },
+    {
+        "id": 10,
+        "pregunta": "La suma de los ángulos internos de un triángulo es:",
+        "opciones": {
+            "A": "90°",
+            "B": "180°",
+            "C": "270°",
+            "D": "360°"
+        },
+        "respuesta_correcta": "B"
+    }
+]

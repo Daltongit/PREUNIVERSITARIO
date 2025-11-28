@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "pregunta": "La velocidad de la luz en el vacío es aproximadamente:",
+        "opciones": {
+            "A": "300,000 km/s",
+            "B": "150,000 km/s",
+            "C": "450,000 km/s",
+            "D": "600,000 km/s"
+        },
+        "respuesta_correcta": "A"
+    },
+    {
+        "id": 2,
+        "pregunta": "La unidad de fuerza en el Sistema Internacional es:",
+        "opciones": {
+            "A": "Joule",
+            "B": "Newton",
+            "C": "Watt",
+            "D": "Pascal"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 3,
+        "pregunta": "La aceleración de la gravedad en la Tierra es aproximadamente:",
+        "opciones": {
+            "A": "8.8 m/s²",
+            "B": "9.8 m/s²",
+            "C": "10.8 m/s²",
+            "D": "11.8 m/s²"
+        },
+        "respuesta_correcta": "B"
+    },
+    {
+        "id": 4,
+        "pregunta": "La primera ley de Newton se conoce como:",
+        "opciones": {
+            "A": "Ley de la inercia",
+            "B": "Ley de la acción y reacción",
+            "C": "Ley de la gravitación",
+            "D": "Ley de la conservación"
+        },
+        "respuesta_correcta": "A"
+    },
+    {
+        "id": 5,
+        "pregunta": "La energía cinética depende de:",
+        "opciones": {
+            "A": "Solo la masa",
+            "B": "Solo la velocidad",
+            "C": "Masa y velocidad",
+            "D": "Masa y altura"
+        },
+        "respuesta_correcta": "C"
+    }
+]
