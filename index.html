@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparta Academy - Simuladores</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
+            <div class="user-info">
+                <span id="userName"></span>
+                <button id="btnAdminResults" class="btn-header" style="display: none;">Ver Resultados</button>
+                <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <div class="welcome-section">
+            <h1 id="welcomeMessage"></h1>
+            <p>Selecciona una universidad para comenzar tu simulador</p>
+        </div>
+
+        <div class="universidades-grid" id="universidadesGrid"></div>
+    </main>
+
+    <div id="modalNoAcceso" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-icon">⚠️</div>
+            <h2>Acceso Denegado</h2>
+            <p>No tienes acceso a este simulador. Comunícate con los administradores.</p>
+            <button class="btn-modal-accept">Aceptar</button>
+        </div>
+    </div>
+
+    <!-- CDN de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/main.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sparta Academy - Inicio de Sesión</title>
+    <link rel="stylesheet" href="css/login.css">
+</head>
+
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo-container">
+                <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="logo">
+            </div>
+            <h1>SPARTA ACADEMY</h1>
+            <p class="subtitle">Plataforma de Simuladores Preuniversitarios</p>
+
+            <form id="loginForm">
+                <div class="input-group">
+                    <label for="usuario">Usuario</label>
+                    <input type="text" id="usuario" name="usuario" required autocomplete="username">
+                </div>
+
+                <div class="input-group">
+                    <label for="contrasena">Contraseña</label>
+                    <input type="password" id="contrasena" name="contrasena" required autocomplete="current-password">
+                </div>
+
+                <button type="submit" class="btn-login">Ingresar</button>
+            </form>
+
+            <div id="errorMessage" class="error-message"></div>
+        </div>
+    </div>
+
+    <!-- CDN de Supabase -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="js/supabase-client.js"></script>
+    <script src="js/auth.js"></script>
+</body>
+
+</html>

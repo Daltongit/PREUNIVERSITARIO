@@ -1,0 +1,269 @@
+.admin-container {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.admin-container h1 {
+    text-align: center;
+    color: #333;
+    font-size: 32px;
+    margin-bottom: 30px;
+}
+
+.filters-container {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    align-items: end;
+}
+
+.filter-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.filter-group label {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.filter-group select,
+.filter-group input {
+    padding: 12px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 14px;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: #C9A961;
+    box-shadow: 0 0 0 3px rgba(201, 169, 97, 0.1);
+}
+
+.btn-pdf {
+    padding: 12px 25px;
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 14px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-pdf:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(231, 76, 60, 0.4);
+}
+
+.resultados-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+.aspirante-card {
+    border-bottom: 1px solid #e0e0e0;
+    transition: background 0.3s ease;
+}
+
+.aspirante-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 25px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.aspirante-header:hover {
+    background: #f8f9fa;
+}
+
+.aspirante-info {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.aspirante-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.aspirante-nombre {
+    font-size: 18px;
+    font-weight: 600;
+    color: #333;
+}
+
+.aspirante-intentos {
+    color: #666;
+    font-size: 14px;
+}
+
+.aspirante-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-toggle,
+.btn-pdf-individual {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn-toggle {
+    background: #C9A961;
+    color: white;
+}
+
+.btn-toggle:hover {
+    background: #B8954F;
+}
+
+.btn-pdf-individual {
+    background: #e74c3c;
+    color: white;
+}
+
+.btn-pdf-individual:hover {
+    background: #c0392b;
+}
+
+.aspirante-detalles {
+    display: none;
+    padding: 0 25px 25px;
+    animation: slideDown 0.3s ease;
+}
+
+.aspirante-detalles.active {
+    display: block;
+}
+
+.intentos-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+    overflow-x: auto;
+    display: block;
+}
+
+.intentos-table thead,
+.intentos-table tbody,
+.intentos-table tr {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+}
+
+.intentos-table th,
+.intentos-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.intentos-table th {
+    background: #f8f9fa;
+    font-weight: 600;
+    color: #333;
+}
+
+.intentos-table tbody {
+    display: block;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.intentos-table tr:hover {
+    background: #f8f9fa;
+}
+
+.puntaje-badge {
+    padding: 4px 12px;
+    border-radius: 20px;
+    font-weight: 600;
+    display: inline-block;
+}
+
+.puntaje-excelente {
+    background: #d4edda;
+    color: #155724;
+}
+
+.puntaje-bueno {
+    background: #d1ecf1;
+    color: #0c5460;
+}
+
+.puntaje-regular {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.puntaje-bajo {
+    background: #f8d7da;
+    color: #721c24;
+}
+
+.no-resultados {
+    text-align: center;
+    padding: 60px 20px;
+    color: #999;
+}
+
+.no-resultados-icon {
+    font-size: 64px;
+    margin-bottom: 20px;
+}
+
+@media (max-width: 768px) {
+    .filters-container {
+        grid-template-columns: 1fr;
+    }
+
+    .aspirante-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+
+    .aspirante-actions {
+        width: 100%;
+        justify-content: flex-end;
+    }
+
+    .intentos-table {
+        font-size: 12px;
+    }
+
+    .intentos-table th,
+    .intentos-table td {
+        padding: 8px;
+    }
+}
