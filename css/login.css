@@ -4,11 +4,11 @@
     box-sizing: border-box;
 }
 
-@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
 
 body {
-    font-family: 'Rajdhani', sans-serif;
-    background: #000000;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
     min-height: 100vh;
     display: flex;
     justify-content: center;
@@ -17,342 +17,206 @@ body {
     overflow: hidden;
 }
 
-/* Fondo animado con partículas doradas */
+/* Decoración sutil de fondo */
 body::before {
     content: '';
     position: absolute;
-    width: 100%;
-    height: 100%;
-    background: 
-        radial-gradient(ellipse at 20% 30%, rgba(199, 151, 61, 0.15) 0%, transparent 50%),
-        radial-gradient(ellipse at 80% 70%, rgba(218, 165, 32, 0.1) 0%, transparent 50%),
-        radial-gradient(ellipse at 50% 50%, rgba(255, 0, 0, 0.05) 0%, transparent 70%);
-    animation: gradientShift 15s ease infinite;
+    width: 500px;
+    height: 500px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.08) 0%, transparent 70%);
+    border-radius: 50%;
+    top: -100px;
+    right: -100px;
+    animation: float 20s ease-in-out infinite;
 }
 
-@keyframes gradientShift {
-    0%, 100% { opacity: 1; transform: scale(1); }
-    50% { opacity: 0.8; transform: scale(1.1); }
-}
-
-/* Líneas doradas animadas */
 body::after {
     content: '';
     position: absolute;
-    width: 200%;
-    height: 2px;
-    background: linear-gradient(90deg, 
-        transparent, 
-        rgba(218, 165, 32, 0.5), 
-        rgba(199, 151, 61, 0.8),
-        rgba(218, 165, 32, 0.5), 
-        transparent
-    );
-    top: 20%;
-    animation: lineSweep 8s linear infinite;
+    width: 400px;
+    height: 400px;
+    background: radial-gradient(circle, rgba(201, 169, 97, 0.06) 0%, transparent 70%);
+    border-radius: 50%;
+    bottom: -100px;
+    left: -100px;
+    animation: float 15s ease-in-out infinite reverse;
 }
 
-@keyframes lineSweep {
-    0% { transform: translateX(-100%); }
-    100% { transform: translateX(100%); }
+@keyframes float {
+    0%, 100% { transform: translate(0, 0); }
+    50% { transform: translate(30px, 30px); }
 }
 
 .login-container {
     width: 100%;
-    max-width: 500px;
+    max-width: 480px;
     padding: 20px;
     z-index: 1;
 }
 
 .login-box {
-    background: linear-gradient(145deg, rgba(20, 20, 20, 0.98), rgba(30, 30, 30, 0.95));
-    backdrop-filter: blur(20px);
-    border-radius: 30px;
-    padding: 60px 45px;
+    background: white;
+    border-radius: 24px;
+    padding: 50px 40px;
     box-shadow: 
-        0 0 60px rgba(218, 165, 32, 0.3),
-        0 0 100px rgba(255, 0, 0, 0.2),
-        inset 0 0 80px rgba(0, 0, 0, 0.5);
-    animation: boxGlow 3s ease-in-out infinite;
-    border: 2px solid transparent;
-    background-clip: padding-box;
-    position: relative;
+        0 10px 40px rgba(0, 0, 0, 0.08),
+        0 2px 8px rgba(0, 0, 0, 0.04);
+    animation: slideUp 0.6s ease-out;
+    border: 1px solid rgba(201, 169, 97, 0.1);
 }
 
-.login-box::before {
-    content: '';
-    position: absolute;
-    inset: -2px;
-    border-radius: 30px;
-    padding: 2px;
-    background: linear-gradient(45deg, 
-        #DAA520, 
-        #FF0000, 
-        #C7973D, 
-        #FF0000, 
-        #DAA520
-    );
-    -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
-    -webkit-mask-composite: xor;
-    mask-composite: exclude;
-    animation: borderRotate 4s linear infinite;
-}
-
-@keyframes borderRotate {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-}
-
-@keyframes boxGlow {
-    0%, 100% {
-        box-shadow: 
-            0 0 60px rgba(218, 165, 32, 0.3),
-            0 0 100px rgba(255, 0, 0, 0.2),
-            inset 0 0 80px rgba(0, 0, 0, 0.5);
+@keyframes slideUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
     }
-    50% {
-        box-shadow: 
-            0 0 80px rgba(218, 165, 32, 0.5),
-            0 0 120px rgba(255, 0, 0, 0.3),
-            inset 0 0 100px rgba(0, 0, 0, 0.7);
+    to {
+        opacity: 1;
+        transform: translateY(0);
     }
 }
 
 .logo-container {
     text-align: center;
-    margin-bottom: 35px;
+    margin-bottom: 30px;
     position: relative;
 }
 
 .logo {
-    width: 160px;
+    width: 140px;
     height: auto;
-    filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))
-            drop-shadow(0 0 40px rgba(255, 0, 0, 0.4));
-    animation: logoFloat 4s ease-in-out infinite;
-    position: relative;
-    z-index: 1;
+    filter: drop-shadow(0 4px 12px rgba(201, 169, 97, 0.3));
+    animation: logoAppear 0.8s ease-out;
 }
 
-@keyframes logoFloat {
-    0%, 100% {
-        transform: translateY(0) scale(1);
-        filter: drop-shadow(0 0 20px rgba(218, 165, 32, 0.8))
-                drop-shadow(0 0 40px rgba(255, 0, 0, 0.4));
+@keyframes logoAppear {
+    from {
+        transform: scale(0.8);
+        opacity: 0;
     }
-    50% {
-        transform: translateY(-10px) scale(1.05);
-        filter: drop-shadow(0 0 30px rgba(218, 165, 32, 1))
-                drop-shadow(0 0 60px rgba(255, 0, 0, 0.6));
-    }
-}
-
-.logo-container::before {
-    content: '';
-    position: absolute;
-    width: 180px;
-    height: 180px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: radial-gradient(circle, rgba(218, 165, 32, 0.3) 0%, transparent 70%);
-    border-radius: 50%;
-    animation: pulse 2s ease-in-out infinite;
-    z-index: 0;
-}
-
-@keyframes pulse {
-    0%, 100% {
-        transform: translate(-50%, -50%) scale(1);
-        opacity: 0.5;
-    }
-    50% {
-        transform: translate(-50%, -50%) scale(1.2);
-        opacity: 0.8;
+    to {
+        transform: scale(1);
+        opacity: 1;
     }
 }
 
 h1 {
     text-align: center;
-    background: linear-gradient(135deg, #DAA520 0%, #FFD700 50%, #C7973D 100%);
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
-    font-size: 38px;
+    font-size: 32px;
     margin-bottom: 8px;
     font-weight: 700;
-    letter-spacing: 3px;
-    text-transform: uppercase;
-    animation: titleShine 3s ease-in-out infinite;
-    position: relative;
-    text-shadow: 0 0 30px rgba(218, 165, 32, 0.5);
-}
-
-@keyframes titleShine {
-    0%, 100% {
-        filter: brightness(1);
-    }
-    50% {
-        filter: brightness(1.3);
-    }
+    letter-spacing: -0.5px;
 }
 
 .subtitle {
     text-align: center;
-    color: #DAA520;
+    color: #6c757d;
     font-size: 15px;
-    margin-bottom: 40px;
+    margin-bottom: 35px;
     font-weight: 500;
-    letter-spacing: 1px;
-    animation: subtitleFade 2s ease-in-out infinite;
-}
-
-@keyframes subtitleFade {
-    0%, 100% { opacity: 0.8; }
-    50% { opacity: 1; }
 }
 
 .input-group {
-    margin-bottom: 28px;
+    margin-bottom: 24px;
     position: relative;
 }
 
 .input-group label {
     display: block;
-    margin-bottom: 12px;
-    color: #DAA520;
+    margin-bottom: 8px;
+    color: #495057;
     font-weight: 600;
-    font-size: 15px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
+    font-size: 14px;
 }
 
 .input-group input {
     width: 100%;
-    padding: 18px 20px;
-    border: 2px solid rgba(218, 165, 32, 0.3);
-    border-radius: 15px;
-    font-size: 16px;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background: rgba(0, 0, 0, 0.6);
-    color: #ffffff;
-    font-family: 'Rajdhani', sans-serif;
+    padding: 14px 16px;
+    border: 2px solid #e9ecef;
+    border-radius: 12px;
+    font-size: 15px;
+    transition: all 0.3s ease;
+    background: #f8f9fa;
+    font-family: 'Poppins', sans-serif;
     font-weight: 500;
+    color: #212529;
 }
 
 .input-group input::placeholder {
-    color: rgba(218, 165, 32, 0.5);
+    color: #adb5bd;
 }
 
 .input-group input:focus {
     outline: none;
-    border-color: #DAA520;
-    background: rgba(0, 0, 0, 0.8);
-    box-shadow: 
-        0 0 20px rgba(218, 165, 32, 0.4),
-        0 0 40px rgba(255, 0, 0, 0.2),
-        inset 0 0 20px rgba(218, 165, 32, 0.1);
-    transform: translateY(-3px);
+    border-color: #C9A961;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(201, 169, 97, 0.1);
+    transform: translateY(-2px);
 }
 
 .btn-login {
     width: 100%;
-    padding: 18px;
-    background: linear-gradient(135deg, #FF0000 0%, #DC143C 50%, #8B0000 100%);
-    color: #DAA520;
-    border: 2px solid #DAA520;
-    border-radius: 15px;
-    font-size: 18px;
+    padding: 16px;
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    margin-top: 15px;
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    position: relative;
-    overflow: hidden;
-    box-shadow: 
-        0 0 20px rgba(255, 0, 0, 0.5),
-        0 0 40px rgba(218, 165, 32, 0.3);
-}
-
-.btn-login::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 0;
-    height: 0;
-    background: radial-gradient(circle, rgba(218, 165, 32, 0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    transform: translate(-50%, -50%);
-    transition: width 0.6s, height 0.6s;
-}
-
-.btn-login:hover::before {
-    width: 400px;
-    height: 400px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
 }
 
 .btn-login:hover {
-    transform: translateY(-5px);
-    box-shadow: 
-        0 0 40px rgba(255, 0, 0, 0.8),
-        0 0 60px rgba(218, 165, 32, 0.6),
-        0 10px 30px rgba(0, 0, 0, 0.5);
-    border-color: #FFD700;
-    color: #FFD700;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(201, 169, 97, 0.4);
 }
 
 .btn-login:active {
-    transform: translateY(-2px);
+    transform: translateY(-1px);
 }
 
 .error-message {
-    margin-top: 25px;
-    padding: 16px 20px;
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.2) 0%, rgba(139, 0, 0, 0.3) 100%);
-    border: 2px solid #FF0000;
-    border-radius: 12px;
-    color: #FFD700;
-    font-size: 15px;
-    font-weight: 600;
+    margin-top: 20px;
+    padding: 14px 18px;
+    background: #fff5f5;
+    border: 1px solid #fc8181;
+    border-left: 4px solid #f56565;
+    border-radius: 10px;
+    color: #c53030;
+    font-size: 14px;
+    font-weight: 500;
     display: none;
-    animation: errorShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97);
-    box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
+    animation: shake 0.5s ease;
 }
 
-@keyframes errorShake {
-    10%, 90% { transform: translateX(-3px); }
-    20%, 80% { transform: translateX(6px); }
-    30%, 50%, 70% { transform: translateX(-9px); }
-    40%, 60% { transform: translateX(9px); }
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
 }
 
 .error-message.show {
     display: block;
-    animation: errorShake 0.6s cubic-bezier(0.36, 0.07, 0.19, 0.97), errorGlow 1.5s ease-in-out infinite;
-}
-
-@keyframes errorGlow {
-    0%, 100% {
-        box-shadow: 0 0 20px rgba(255, 0, 0, 0.5);
-    }
-    50% {
-        box-shadow: 0 0 40px rgba(255, 0, 0, 0.8);
-    }
 }
 
 @media (max-width: 480px) {
     .login-box {
-        padding: 50px 35px;
+        padding: 40px 30px;
     }
     
     h1 {
-        font-size: 32px;
+        font-size: 28px;
     }
     
     .logo {
-        width: 140px;
+        width: 120px;
     }
 }
