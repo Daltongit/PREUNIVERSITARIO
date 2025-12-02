@@ -1,6 +1,6 @@
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async function() {
     const usuarioActual = JSON.parse(sessionStorage.getItem('usuarioActual'));
-
+    
     if (!usuarioActual || usuarioActual.rol !== 'admin') {
         window.location.href = 'index.html';
         return;
@@ -22,26 +22,12 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     async function cargarDatos() {
         try {
-            // Cargar usuarios desde archivos JSON de todas las universidades
-            const universidades = ['EPN', 'UCE', 'ESPE', 'UNACH', 'UPEC', 'UTA', 'UTC', 'UTN', 'YACHAY'];
-            const usuariosMap = new Map();
-
-            for (const uni of universidades) {
-                try {
-                    const response = await fetch(`universidades/${uni}/data/usuarios.json`);
-                    const usuarios = await response.json();
-
-                    usuarios.forEach(user => {
-                        if (!usuariosMap.has(user.usuario)) {
-                            usuariosMap.set(user.usuario, user);
-                        }
-                    });
-                } catch (err) {
-                    console.log(`No se pudo cargar usuarios de ${uni}`);
-                }
-            }
-
-            todosLosUsuarios = Array.from(usuariosMap.values());
+            // Cargar usuarios desde la raíz
+            const response = await fetch('data/usuarios.json');
+            const usuarios = await response.json();
+            
+            // Filtrar solo estudiantes
+            todosLosUsuarios = usuarios.filter(u => u.rol === 'estudiante');
 
             // Cargar intentos desde Supabase
             const { data: intentos, error: errorIntentos } = await supabaseClient
@@ -53,7 +39,9 @@ document.addEventListener('DOMContentLoaded', async function () {
                 console.error('Error al cargar intentos:', errorIntentos);
                 todosLosIntentos = [];
             } else {
-                todosLosIntentos = intentos || [];
+                // Filtrar intentos solo de estudiantes
+                const usuariosEstudiantes = todosLosUsuarios.map(u => u.usuario);
+                todosLosIntentos = (intentos || []).filter(i => usuariosEstudiantes.includes(i.usuario));
             }
 
             filtrarResultados();
@@ -73,7 +61,7 @@ document.addEventListener('DOMContentLoaded', async function () {
             const cumpleCiudad = ciudad === 'TODAS' || intento.ciudad === ciudad;
             const cumpleUniversidad = universidad === 'TODAS' || intento.universidad_codigo === universidad;
             const cumpleBusqueda = intento.nombre_completo.toLowerCase().includes(busqueda);
-
+            
             return cumpleCiudad && cumpleUniversidad && cumpleBusqueda;
         });
 
@@ -91,9 +79,9 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     function renderResultados(intentosPorUsuario) {
         const container = document.getElementById('resultadosContainer');
-
+        
         const usuarios = Object.keys(intentosPorUsuario);
-
+        
         if (usuarios.length === 0) {
             container.innerHTML = `
                 <div class="no-resultados">
@@ -116,12 +104,12 @@ document.addEventListener('DOMContentLoaded', async function () {
         usuarios.forEach(usuario => {
             const intentosUsuario = intentosPorUsuario[usuario];
             const primerIntento = intentosUsuario[0];
-
+            
             const card = document.createElement('div');
             card.className = 'aspirante-card';
-
+            
             const iniciales = primerIntento.nombre_completo.split(' ').map(n => n[0]).join('').substring(0, 2);
-
+            
             card.innerHTML = `
                 <div class="aspirante-header" data-usuario="${usuario}">
                     <div class="aspirante-info">
@@ -140,7 +128,7 @@ document.addEventListener('DOMContentLoaded', async function () {
                     ${renderTablaIntentos(intentosUsuario)}
                 </div>
             `;
-
+            
             container.appendChild(card);
         });
     }
@@ -168,7 +156,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         intentos.forEach(intento => {
             const puntaje = intento.puntaje_obtenido;
             const porcentaje = Math.round((puntaje / 1000) * 100);
-
+            
             let clasePuntaje = 'puntaje-bajo';
             if (porcentaje >= 80) clasePuntaje = 'puntaje-excelente';
             else if (porcentaje >= 60) clasePuntaje = 'puntaje-bueno';
@@ -208,10 +196,10 @@ document.addEventListener('DOMContentLoaded', async function () {
         return html;
     }
 
-    window.toggleDetalles = function (usuario) {
+    window.toggleDetalles = function(usuario) {
         const detalles = document.getElementById(`detalles-${usuario}`);
         detalles.classList.toggle('active');
-
+        
         const btn = document.querySelector(`[data-usuario="${usuario}"] .btn-toggle`);
         if (detalles.classList.contains('active')) {
             btn.textContent = '▲ Ocultar Detalles';
@@ -220,7 +208,7 @@ document.addEventListener('DOMContentLoaded', async function () {
         }
     };
 
-    window.generarPDFIndividual = async function (usuario) {
+    window.generarPDFIndividual = async function(usuario) {
         const intentosUsuario = todosLosIntentos.filter(i => i.usuario === usuario);
         const primerIntento = intentosUsuario[0];
 
