@@ -1,0 +1,42 @@
+[
+    {
+        "usuario": "milton",
+        "contrasena": "root",
+        "nombre": "Milton Fuel",
+        "rol": "admin",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["EPN", "UCE", "ESPE", "UNACH", "UPEC", "UTA", "UTC", "UTN", "YACHAY"]
+    },
+    {
+        "usuario": "juan.perez",
+        "contrasena": "12345",
+        "nombre": "Juan Pérez",
+        "rol": "estudiante",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["UPEC", "UTN"]
+    },
+    {
+        "usuario": "maria.lopez",
+        "contrasena": "54321",
+        "nombre": "María López",
+        "rol": "estudiante",
+        "ciudad": "Ibarra",
+        "universidades_acceso": ["UPEC", "EPN"]
+    },
+    {
+        "usuario": "carlos.garcia",
+        "contrasena": "password",
+        "nombre": "Carlos García",
+        "rol": "estudiante",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["EPN", "UCE", "ESPE"]
+    },
+    {
+        "usuario": "ana.martinez",
+        "contrasena": "ana123",
+        "nombre": "Ana Martínez",
+        "rol": "estudiante",
+        "ciudad": "Ibarra",
+        "universidades_acceso": ["UPEC"]
+    }
+]
