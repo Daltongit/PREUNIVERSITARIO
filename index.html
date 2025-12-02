@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sparta Academy - Simuladores</title>
     <link rel="stylesheet" href="css/styles.css">
 </head>
-
 <body>
     <header>
         <div class="header-content">
@@ -31,18 +29,20 @@
 
     <div id="modalNoAcceso" class="modal">
         <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="modal-icon">⚠️</div>
-            <h2>Acceso Denegado</h2>
-            <p>No tienes acceso a este simulador. Comunícate con los administradores.</p>
-            <button class="btn-modal-accept">Aceptar</button>
+            <div class="modal-header">
+                <span class="close-modal">&times;</span>
+                <div class="modal-icon">⛔</div>
+            </div>
+            <div class="modal-body">
+                <h2>Acceso Denegado</h2>
+                <p>No tienes permiso para acceder a este simulador. Por favor, comunícate con el administrador para solicitar acceso.</p>
+                <button class="btn-modal-accept">Entendido</button>
+            </div>
         </div>
     </div>
 
-    <!-- CDN de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/main.js"></script>
 </body>
-
 </html>
