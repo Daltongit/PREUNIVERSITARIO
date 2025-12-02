@@ -5,7 +5,7 @@
         "nombre": "Milton Fuel",
         "rol": "admin",
         "ciudad": "Tulcán",
-        "universidades_acceso": ["EPN", "UCE", "ESPE", "UNACH", "UPEC", "UTC", "UTN", "YACHAY"]
+        "universidades_acceso": ["EPN", "UCE", "ESPE", "UNACH", "UTC", "UTN", "YACHAY"]
     },
     {
         "usuario": "juan.perez",
