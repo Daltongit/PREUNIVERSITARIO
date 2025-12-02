@@ -1,1 +1,506 @@
+.simulador-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+.simulador-header {
+    background: white;
+    padding: 35px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    margin-bottom: 35px;
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    animation: slideInLeft 0.6s ease-out;
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.simulador-logo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 5px solid #C9A961;
+    object-fit: contain;
+    background: white;
+    padding: 10px;
+    box-shadow: 0 8px 20px rgba(201, 169, 97, 0.3);
+}
+
+.simulador-info h1 {
+    color: #1a1a2e;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.simulador-info p {
+    color: #64748b;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+.materia-selector {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.materia-selector h2 {
+    color: #1a1a2e;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.materia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+.materia-card {
+    padding: 30px;
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    color: white;
+    border-radius: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    font-size: 18px;
+    font-weight: 700;
+    border: none;
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+    position: relative;
+    overflow: hidden;
+}
+
+.materia-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+    transition: left 0.5s ease;
+}
+
+.materia-card:hover::before {
+    left: 100%;
+}
+
+.materia-card:hover {
+    transform: translateY(-8px) scale(1.03);
+    box-shadow: 0 12px 30px rgba(201, 169, 97, 0.5);
+}
+
+.instrucciones {
+    background: white;
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: none;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.instrucciones.active {
+    display: block;
+}
+
+.instrucciones h2 {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.instrucciones h3 {
+    color: #1a1a2e;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 25px 0 20px;
+}
+
+.instrucciones ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instrucciones li {
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #C9A961;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    color: #2c3e50;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.instrucciones li:hover {
+    background: #fff8e7;
+    transform: translateX(5px);
+}
+
+.btn-comenzar {
+    padding: 18px 50px;
+    background: linear-gradient(135deg, #27ae60 0%, #229954 100%);
+    color: white;
+    border: none;
+    border-radius: 14px;
+    font-size: 18px;
+    font-weight: 700;
+    cursor: pointer;
+    margin-top: 30px;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    box-shadow: 0 6px 20px rgba(39, 174, 96, 0.3);
+}
+
+.btn-comenzar:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 30px rgba(39, 174, 96, 0.5);
+}
+
+.examen-layout {
+    display: none;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.examen-layout.active {
+    display: grid;
+}
+
+.examen-main {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.examen-sidebar {
+    position: sticky;
+    top: 110px;
+    height: fit-content;
+}
+
+.cronometro-card {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 8px 25px rgba(231, 76, 60, 0.4);
+}
+
+.cronometro-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.cronometro-tiempo {
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+.preguntas-navegacion {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+}
+
+.preguntas-navegacion h3 {
+    color: #1a1a2e;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.preguntas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.pregunta-nav-btn {
+    width: 45px;
+    height: 45px;
+    border: 2px solid #e8ecef;
+    background: white;
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 14px;
+    color: #64748b;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pregunta-nav-btn.actual {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    color: white;
+    border-color: #C9A961;
+    transform: scale(1.1);
+}
+
+.pregunta-nav-btn.contestada {
+    background: #d4edda;
+    border-color: #28a745;
+    color: #155724;
+}
+
+.pregunta-actual {
+    margin-bottom: 35px;
+}
+
+.pregunta-numero {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.pregunta-texto {
+    font-size: 20px;
+    color: #1a1a2e;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.opcion {
+    padding: 20px 24px;
+    border: 2px solid #e8ecef;
+    border-radius: 14px;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    background: #f8f9fa;
+    font-size: 16px;
+    color: #2c3e50;
+    font-weight: 500;
+}
+
+.opcion:hover {
+    border-color: #C9A961;
+    background: white;
+    transform: translateX(8px);
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.2);
+}
+
+.opcion.selected {
+    border-color: #C9A961;
+    background: linear-gradient(135deg, #fff8e7 0%, #fffbf0 100%);
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+}
+
+.opcion strong {
+    color: #C9A961;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+.btn-siguiente {
+    padding: 16px 40px;
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    font-size: 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+}
+
+.btn-siguiente:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 25px rgba(201, 169, 97, 0.5);
+}
+
+.btn-terminar {
+    background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+}
+
+.resultados-container {
+    background: white;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+    display: none;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+}
+
+.resultados-container.active {
+    display: block;
+}
+
+.resultados-container h1 {
+    color: #1a1a2e;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.puntaje-final {
+    font-size: 64px;
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    margin: 30px 0;
+    animation: scaleIn 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+@keyframes scaleIn {
+    from {
+        transform: scale(0.5);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
+}
+
+.estadistica {
+    padding: 30px;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e8ecef 100%);
+    border-radius: 16px;
+    border: 2px solid #e8ecef;
+    transition: all 0.3s ease;
+}
+
+.estadistica:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.estadistica h3 {
+    color: #C9A961;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.estadistica p {
+    color: #64748b;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.revision-section h3 {
+    color: #1a1a2e;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 40px 0 25px;
+    text-align: left;
+}
+
+.revision-pregunta {
+    text-align: left;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    border-left: 4px solid #e8ecef;
+    transition: all 0.3s ease;
+}
+
+.revision-pregunta:hover {
+    background: white;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+}
+
+.respuesta-correcta {
+    color: #27ae60;
+    font-weight: 700;
+}
+
+.respuesta-incorrecta {
+    color: #e74c3c;
+    font-weight: 700;
+}
+
+.resultados-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 1024px) {
+    .examen-layout {
+        grid-template-columns: 1fr;
+    }
+    
+    .examen-sidebar {
+        position: static;
+    }
+    
+    .cronometro-card {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .simulador-header {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .preguntas-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
 
