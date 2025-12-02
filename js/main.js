@@ -1,13 +1,13 @@
-document.addEventListener('DOMContentLoaded', async function () {
+document.addEventListener('DOMContentLoaded', async function() {
     const usuarioActual = JSON.parse(sessionStorage.getItem('usuarioActual'));
-
+    
     if (!usuarioActual) {
         window.location.href = 'login.html';
         return;
     }
 
     document.getElementById('userName').textContent = usuarioActual.nombre;
-    document.getElementById('welcomeMessage').textContent = `¡Bienvenido, ${usuarioActual.nombre}!`;
+    document.getElementById('welcomeMessage').textContent = `Bienvenido, ${usuarioActual.nombre}`;
 
     if (usuarioActual.rol === 'admin') {
         document.getElementById('btnAdminResults').style.display = 'block';
@@ -51,7 +51,7 @@ document.addEventListener('DOMContentLoaded', async function () {
 
 function renderUniversidades(universidades, usuario) {
     const grid = document.getElementById('universidadesGrid');
-
+    
     universidades.forEach(uni => {
         const card = document.createElement('div');
         card.className = 'universidad-card';
@@ -62,7 +62,7 @@ function renderUniversidades(universidades, usuario) {
             <div class="universidad-nombre">${uni.nombre}</div>
             <div class="universidad-codigo">${uni.codigo}</div>
         `;
-
+        
         card.addEventListener('click', () => verificarAcceso(uni.codigo, usuario));
         grid.appendChild(card);
     });
@@ -70,9 +70,9 @@ function renderUniversidades(universidades, usuario) {
 
 function verificarAcceso(codigoUni, usuario) {
     const tieneAcceso = usuario.universidades_acceso.includes(codigoUni);
-
+    
     if (tieneAcceso || usuario.rol === 'admin') {
-        window.location.href = `universidades/${codigoUni}/simulador.html`;
+        window.location.href = `universidades/${codigoUni}/simulador.html?uni=${codigoUni}`;
     } else {
         document.getElementById('modalNoAcceso').style.display = 'block';
     }
