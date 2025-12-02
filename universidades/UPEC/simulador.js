@@ -3,24 +3,51 @@ let materiaActual = null;
 let preguntasExamen = [];
 let preguntaIndex = 0;
 let respuestasUsuario = [];
-let tiempoRestante = 3600; // 60 minutos en segundos
+let tiempoRestante = 3600;
 let intervaloCronometro = null;
 let horaInicio = null;
+let codigoUniversidad = 'UPEC';
 
-document.addEventListener('DOMContentLoaded', async function () {
+const universidadesInfo = {
+    'EPN': { nombre: 'Escuela Politécnica Nacional', logo: 'epn.png' },
+    'UCE': { nombre: 'Universidad Central del Ecuador', logo: 'uce.png' },
+    'ESPE': { nombre: 'Universidad de las Fuerzas Armadas', logo: 'espe.png' },
+    'UNACH': { nombre: 'Universidad Nacional de Chimborazo', logo: 'unach.png' },
+    'UPEC': { nombre: 'Universidad Politécnica Estatal del Carchi', logo: 'upec.png' },
+    'UTA': { nombre: 'Universidad Técnica de Ambato', logo: 'uta.png' },
+    'UTC': { nombre: 'Universidad Técnica de Cotopaxi', logo: 'utc.png' },
+    'UTN': { nombre: 'Universidad Técnica del Norte', logo: 'utn.png' },
+    'YACHAY': { nombre: 'Universidad Yachay Tech', logo: 'yachay.png' }
+};
+
+document.addEventListener('DOMContentLoaded', async function() {
     usuarioActual = JSON.parse(sessionStorage.getItem('usuarioActual'));
-
+    
     if (!usuarioActual) {
         window.location.href = '../../login.html';
         return;
     }
 
+    // Obtener código de universidad de la URL
+    const urlParams = new URLSearchParams(window.location.search);
+    const uniParam = urlParams.get('uni');
+    if (uniParam) {
+        codigoUniversidad = uniParam;
+    }
+
+    // Actualizar header con info de la universidad
+    const uniInfo = universidadesInfo[codigoUniversidad];
+    if (uniInfo) {
+        document.getElementById('uniLogo').src = `../../assets/logos/${uniInfo.logo}`;
+        document.getElementById('simuladorTitulo').textContent = `Simuladores Sparta Academy - ${codigoUniversidad}`;
+        document.getElementById('simuladorSubtitulo').textContent = uniInfo.nombre;
+    }
+
     document.getElementById('userName').textContent = usuarioActual.nombre;
 
-    // Materias disponibles para UPEC
     const materias = ['Matemáticas', 'Física', 'Química'];
     const materiaGrid = document.getElementById('materiaGrid');
-
+    
     materias.forEach(materia => {
         const card = document.createElement('div');
         card.className = 'materia-card';
@@ -46,41 +73,65 @@ function seleccionarMateria(materia) {
 
 async function comenzarExamen() {
     try {
-        // Cargar preguntas desde archivo JSON
         const materiaFile = materiaActual.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "");
         const response = await fetch(`data/${materiaFile}.json`);
         const todasPreguntas = await response.json();
-
-        // Mezclar y seleccionar 50 preguntas (o todas si hay menos de 50)
+        
         preguntasExamen = todasPreguntas.sort(() => Math.random() - 0.5).slice(0, Math.min(50, todasPreguntas.length));
-
+        
         respuestasUsuario = new Array(preguntasExamen.length).fill(null);
         preguntaIndex = 0;
         horaInicio = new Date();
-
+        
         document.getElementById('instrucciones').classList.remove('active');
-        document.getElementById('examenContainer').classList.add('active');
-        document.getElementById('cronometro').style.display = 'block';
-
+        document.getElementById('examenLayout').classList.add('active');
+        
+        generarNavegacionPreguntas();
         iniciarCronometro();
         mostrarPregunta();
-
+        
     } catch (error) {
         console.error('Error al cargar preguntas:', error);
         alert('Error al cargar el examen. Intenta nuevamente.');
     }
 }
 
+function generarNavegacionPreguntas() {
+    const grid = document.getElementById('preguntasGrid');
+    grid.innerHTML = '';
+    
+    for (let i = 0; i < preguntasExamen.length; i++) {
+        const btn = document.createElement('button');
+        btn.className = 'pregunta-nav-btn';
+        btn.textContent = i + 1;
+        btn.id = `nav-btn-${i}`;
+        grid.appendChild(btn);
+    }
+}
+
+function actualizarNavegacion() {
+    for (let i = 0; i < preguntasExamen.length; i++) {
+        const btn = document.getElementById(`nav-btn-${i}`);
+        btn.classList.remove('actual', 'contestada');
+        
+        if (i === preguntaIndex) {
+            btn.classList.add('actual');
+        } else if (respuestasUsuario[i] !== null) {
+            btn.classList.add('contestada');
+        }
+    }
+}
+
 function iniciarCronometro() {
     intervaloCronometro = setInterval(() => {
         tiempoRestante--;
-
+        
         const minutos = Math.floor(tiempoRestante / 60);
         const segundos = tiempoRestante % 60;
-
-        document.getElementById('cronometro').textContent =
+        
+        document.getElementById('cronometro').textContent = 
             `${minutos.toString().padStart(2, '0')}:${segundos.toString().padStart(2, '0')}`;
-
+        
         if (tiempoRestante <= 0) {
             clearInterval(intervaloCronometro);
             finalizarExamen();
@@ -91,13 +142,13 @@ function iniciarCronometro() {
 function mostrarPregunta() {
     const pregunta = preguntasExamen[preguntaIndex];
     const container = document.getElementById('preguntaActual');
-
+    
     let html = `
         <div class="pregunta-numero">Pregunta ${preguntaIndex + 1} de ${preguntasExamen.length}</div>
         <div class="pregunta-texto">${pregunta.pregunta}</div>
         <div class="opciones">
     `;
-
+    
     for (const [letra, texto] of Object.entries(pregunta.opciones)) {
         const selected = respuestasUsuario[preguntaIndex] === letra ? 'selected' : '';
         html += `
@@ -106,18 +157,19 @@ function mostrarPregunta() {
             </div>
         `;
     }
-
+    
     html += '</div>';
     container.innerHTML = html;
-
+    
     document.querySelectorAll('.opcion').forEach(opcion => {
-        opcion.addEventListener('click', function () {
+        opcion.addEventListener('click', function() {
             document.querySelectorAll('.opcion').forEach(o => o.classList.remove('selected'));
             this.classList.add('selected');
             respuestasUsuario[preguntaIndex] = this.dataset.opcion;
+            actualizarNavegacion();
         });
     });
-
+    
     const btnSiguiente = document.getElementById('btnSiguiente');
     if (preguntaIndex === preguntasExamen.length - 1) {
         btnSiguiente.textContent = 'Terminar Examen';
@@ -126,6 +178,8 @@ function mostrarPregunta() {
         btnSiguiente.textContent = 'Siguiente';
         btnSiguiente.classList.remove('btn-terminar');
     }
+    
+    actualizarNavegacion();
 }
 
 function siguientePregunta() {
@@ -141,16 +195,15 @@ function siguientePregunta() {
 
 async function finalizarExamen() {
     clearInterval(intervaloCronometro);
-    document.getElementById('cronometro').style.display = 'none';
-
+    
     let correctas = 0;
     let incorrectas = 0;
     let enBlanco = 0;
-
+    
     const revision = preguntasExamen.map((pregunta, index) => {
         const respuestaUsuario = respuestasUsuario[index];
         const esCorrecta = respuestaUsuario === pregunta.respuesta_correcta;
-
+        
         if (!respuestaUsuario) {
             enBlanco++;
         } else if (esCorrecta) {
@@ -158,7 +211,7 @@ async function finalizarExamen() {
         } else {
             incorrectas++;
         }
-
+        
         return {
             pregunta: pregunta.pregunta,
             respuestaUsuario: respuestaUsuario || 'Sin responder',
@@ -166,17 +219,17 @@ async function finalizarExamen() {
             esCorrecta: esCorrecta
         };
     });
-
+    
     const puntaje = Math.round((correctas / preguntasExamen.length) * 1000);
-
+    
     await guardarIntento(puntaje, correctas, incorrectas, enBlanco, revision);
-
+    
     mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision);
 }
 
 async function guardarIntento(puntaje, correctas, incorrectas, enBlanco, revision) {
     const horaFin = new Date();
-
+    
     try {
         const { data, error } = await supabaseClient
             .from('intentos')
@@ -184,7 +237,7 @@ async function guardarIntento(puntaje, correctas, incorrectas, enBlanco, revisio
                 usuario: usuarioActual.usuario,
                 nombre_completo: usuarioActual.nombre,
                 ciudad: usuarioActual.ciudad,
-                universidad_codigo: 'UPEC',
+                universidad_codigo: codigoUniversidad,
                 materia_nombre: materiaActual,
                 puntaje_obtenido: puntaje,
                 total_preguntas: preguntasExamen.length,
@@ -195,7 +248,7 @@ async function guardarIntento(puntaje, correctas, incorrectas, enBlanco, revisio
                 tiempo_fin: horaFin.toISOString(),
                 respuestas: revision
             }]);
-
+        
         if (error) {
             console.error('Error al guardar intento:', error);
         } else {
@@ -207,11 +260,11 @@ async function guardarIntento(puntaje, correctas, incorrectas, enBlanco, revisio
 }
 
 function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) {
-    document.getElementById('examenContainer').classList.remove('active');
+    document.getElementById('examenLayout').classList.remove('active');
     document.getElementById('resultadosContainer').classList.add('active');
-
+    
     document.getElementById('puntajeFinal').textContent = `${puntaje}/1000`;
-
+    
     document.getElementById('estadisticas').innerHTML = `
         <div class="estadistica">
             <h3>${preguntasExamen.length}</h3>
@@ -230,19 +283,19 @@ function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) 
             <p>En Blanco</p>
         </div>
     `;
-
+    
     let revisionHTML = '';
     revision.forEach((item, index) => {
         const clase = item.esCorrecta ? 'respuesta-correcta' : 'respuesta-incorrecta';
         revisionHTML += `
             <div class="revision-pregunta">
-                <strong>Pregunta ${index + 1}:</strong> ${item.pregunta}<br>
+                <strong>Pregunta ${index + 1}:</strong> ${item.pregunta}<br><br>
                 <span class="${clase}">Tu respuesta: ${item.respuestaUsuario}</span><br>
                 ${!item.esCorrecta ? `<span class="respuesta-correcta">Respuesta correcta: ${item.respuestaCorrecta}</span>` : ''}
             </div>
         `;
     });
-
+    
     document.getElementById('revisionPreguntas').innerHTML = revisionHTML;
 }
 
@@ -251,7 +304,7 @@ function reiniciarSimulador() {
     preguntaIndex = 0;
     respuestasUsuario = [];
     preguntasExamen = [];
-
+    
     document.getElementById('resultadosContainer').classList.remove('active');
     document.getElementById('materiaSelector').style.display = 'block';
 }
