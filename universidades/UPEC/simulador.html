@@ -9,17 +9,23 @@
 </head>
 <body>
     <header>
-        <div class="header-content">
+        <div class="header-content" id="headerContent">
             <a href="../../index.html" class="brand-container">
                 <img src="../../assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
                 <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
             </a>
 
-            <div class="user-info">
-                <span class="student-label">Estudiante:</span>
-                <span id="userName" class="student-name"></span>
-                <button id="btnVolver" class="btn-header">Volver al Inicio</button>
-                <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+            <div class="header-right">
+                <div class="user-info" id="userInfo">
+                    <span class="student-label">Estudiante:</span>
+                    <span id="userName" class="student-name"></span>
+                    <button id="btnVolver" class="btn-header">Volver al Inicio</button>
+                    <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+                </div>
+
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú">
+                    <span class="hamburger-line"></span>
+                </button>
             </div>
         </div>
     </header>
@@ -54,17 +60,13 @@
                 <li>Asegúrate de responder todas las preguntas antes de terminar.</li>
                 <li>El puntaje se calcula sobre 1000 puntos.</li>
             </ul>
-            <button class="btn-comenzar" id="btnComenzar">
-                <span>Comenzar Examen</span>
-            </button>
+            <button class="btn-comenzar" id="btnComenzar"><span>Comenzar Examen</span></button>
         </section>
 
         <section class="examen-layout" id="examenLayout">
             <div class="examen-main">
                 <div class="pregunta-actual" id="preguntaActual"></div>
-                <button class="btn-siguiente" id="btnSiguiente">
-                    <span>Siguiente</span>
-                </button>
+                <button class="btn-siguiente" id="btnSiguiente"><span>Siguiente</span></button>
             </div>
 
             <aside class="examen-sidebar">
@@ -89,12 +91,8 @@
                 <div id="revisionPreguntas"></div>
             </div>
             <div class="resultados-actions">
-                <button class="btn-comenzar" id="btnOtroIntento">
-                    <span>Realizar Otro Intento</span>
-                </button>
-                <button class="btn-header" id="btnVolverInicio" style="padding: 14px 34px;">
-                    Volver al Inicio
-                </button>
+                <button class="btn-comenzar" id="btnOtroIntento"><span>Realizar Otro Intento</span></button>
+                <button class="btn-header" id="btnVolverInicio" style="padding: 14px 34px;">Volver al Inicio</button>
             </div>
         </section>
     </main>
