@@ -1,16 +1,21 @@
-document.addEventListener('DOMContentLoaded', async function() {
+document.addEventListener('DOMContentLoaded', function () {
     const usuarioActual = JSON.parse(sessionStorage.getItem('usuarioActual'));
-    
+
     if (!usuarioActual) {
         window.location.href = 'login.html';
         return;
     }
 
-    document.getElementById('userName').textContent = usuarioActual.nombre;
-    document.getElementById('welcomeMessage').textContent = `Bienvenido, ${usuarioActual.nombre}`;
+    const userNameSpan = document.getElementById('userName');
+    const welcomeMessage = document.getElementById('welcomeMessage');
+    const btnLogout = document.getElementById('btnLogout');
+    const btnAdminResults = document.getElementById('btnAdminResults');
+
+    userNameSpan.textContent = usuarioActual.nombre;
+    welcomeMessage.textContent = `Bienvenido, ${usuarioActual.nombre}`;
 
     if (usuarioActual.rol === 'admin') {
-        document.getElementById('btnAdminResults').style.display = 'block';
+        btnAdminResults.style.display = 'inline-block';
     }
 
     const universidades = [
@@ -27,8 +32,8 @@ document.addEventListener('DOMContentLoaded', async function() {
 
     renderUniversidades(universidades, usuarioActual);
 
-    document.getElementById('btnLogout').addEventListener('click', cerrarSesion);
-    document.getElementById('btnAdminResults')?.addEventListener('click', () => {
+    btnLogout.addEventListener('click', cerrarSesion);
+    btnAdminResults?.addEventListener('click', () => {
         window.location.href = 'admin-resultados.html';
     });
 
@@ -51,7 +56,7 @@ document.addEventListener('DOMContentLoaded', async function() {
 
 function renderUniversidades(universidades, usuario) {
     const grid = document.getElementById('universidadesGrid');
-    
+
     universidades.forEach(uni => {
         const card = document.createElement('div');
         card.className = 'universidad-card';
@@ -62,7 +67,7 @@ function renderUniversidades(universidades, usuario) {
             <div class="universidad-nombre">${uni.nombre}</div>
             <div class="universidad-codigo">${uni.codigo}</div>
         `;
-        
+
         card.addEventListener('click', () => verificarAcceso(uni.codigo, usuario));
         grid.appendChild(card);
     });
@@ -70,7 +75,7 @@ function renderUniversidades(universidades, usuario) {
 
 function verificarAcceso(codigoUni, usuario) {
     const tieneAcceso = usuario.universidades_acceso.includes(codigoUni);
-    
+
     if (tieneAcceso || usuario.rol === 'admin') {
         window.location.href = `universidades/${codigoUni}/simulador.html?uni=${codigoUni}`;
     } else {
