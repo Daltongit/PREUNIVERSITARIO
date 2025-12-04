@@ -6,6 +6,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    const headerContent = document.getElementById('headerContent');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const modal = document.getElementById('modalNoAcceso');
+    const closeModal = document.querySelector('.close-modal');
+    const btnModalAccept = document.querySelector('.btn-modal-accept');
+
     const userNameSpan = document.getElementById('userName');
     const welcomeMessage = document.getElementById('welcomeMessage');
     const btnLogout = document.getElementById('btnLogout');
@@ -37,14 +43,15 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'admin-resultados.html';
     });
 
-    const modal = document.getElementById('modalNoAcceso');
-    const closeModal = document.querySelector('.close-modal');
-    const btnModalAccept = document.querySelector('.btn-modal-accept');
+    // hamburguesa
+    hamburgerBtn.addEventListener('click', () => {
+        headerContent.classList.toggle('nav-open');
+    });
 
+    // modal
     closeModal.addEventListener('click', () => modal.style.display = 'none');
     btnModalAccept.addEventListener('click', () => modal.style.display = 'none');
-
-    window.addEventListener('click', (e) => {
+    window.addEventListener('click', e => {
         if (e.target === modal) modal.style.display = 'none';
     });
 
