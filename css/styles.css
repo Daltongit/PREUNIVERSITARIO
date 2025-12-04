@@ -16,7 +16,7 @@ body {
 
 header {
     background: white;
-    padding: 18px 0;
+    padding: 12px 0;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
     position: sticky;
     top: 0;
@@ -27,7 +27,7 @@ header {
 .header-content {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 0 30px;
+    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -38,24 +38,19 @@ header {
 .brand-container {
     display: flex;
     align-items: center;
-    gap: 15px;
+    gap: 12px;
     cursor: pointer;
     text-decoration: none;
-    transition: transform 0.3s ease;
-}
-
-.brand-container:hover {
-    transform: translateY(-2px);
 }
 
 .header-logo {
-    height: 75px;
+    height: 60px;
     width: auto;
     filter: drop-shadow(0 2px 4px rgba(201, 169, 97, 0.2));
 }
 
 .brand-text {
-    font-size: 22px;
+    font-size: 19px;
     font-weight: 800;
     letter-spacing: 0.5px;
     text-transform: uppercase;
@@ -65,12 +60,20 @@ header {
     background-clip: text;
 }
 
-/* Usuario */
+/* LADO DERECHO HEADER */
+
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+/* Info usuario */
 
 .user-info {
     display: flex;
     align-items: center;
-    gap: 20px;
+    gap: 16px;
     color: #495057;
     font-weight: 600;
     font-size: 15px;
@@ -91,42 +94,82 @@ header {
 /* Botones header */
 
 .btn-header {
-    padding: 10px 24px;
+    padding: 9px 22px;
     background: transparent;
     color: #C9A961;
-    border: 2px solid rgba(201, 169, 97, 0.5);
-    border-radius: 50px;
+    border: 2px solid rgba(201, 169, 97, 0.6);
+    border-radius: 999px;
     cursor: pointer;
     font-weight: 600;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    font-size: 14px;
+    font-size: 13px;
     letter-spacing: 0.3px;
-    position: relative;
-    overflow: hidden;
-    z-index: 1;
-}
-
-.btn-header::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 0%;
-    height: 100%;
-    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
-    transition: width 0.3s ease;
-    z-index: -1;
-    border-radius: 50px;
+    transition: all 0.3s ease;
 }
 
 .btn-header:hover {
-    color: white;
-    border-color: transparent;
-    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
+    background: linear-gradient(135deg, #C9A961, #B8954F);
+    color: #ffffff;
+    box-shadow: 0 4px 14px rgba(201, 169, 97, 0.4);
 }
 
-.btn-header:hover::before {
-    width: 100%;
+/* HAMBURGER (SOLO MÓVIL) */
+
+.hamburger-btn {
+    display: none;
+    width: 40px;
+    height: 40px;
+    border-radius: 999px;
+    border: 1px solid #e5e7eb;
+    background: #f9fafb;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 0;
+}
+
+.hamburger-line {
+    width: 18px;
+    height: 2px;
+    background: #374151;
+    border-radius: 999px;
+    position: relative;
+    transition: all 0.25s ease;
+}
+
+.hamburger-line::before,
+.hamburger-line::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    width: 18px;
+    height: 2px;
+    background: #374151;
+    border-radius: 999px;
+    transition: all 0.25s ease;
+}
+
+.hamburger-line::before {
+    top: -6px;
+}
+
+.hamburger-line::after {
+    top: 6px;
+}
+
+/* estado abierto */
+
+.header-content.nav-open .hamburger-line {
+    background: transparent;
+}
+
+.header-content.nav-open .hamburger-line::before {
+    top: 0;
+    transform: rotate(45deg);
+}
+
+.header-content.nav-open .hamburger-line::after {
+    top: 0;
+    transform: rotate(-45deg);
 }
 
 /* MAIN */
@@ -134,43 +177,31 @@ header {
 main {
     max-width: 1400px;
     margin: 0 auto;
-    padding: 50px 30px;
+    padding: 40px 20px 50px;
 }
 
-/* Bienvenida */
+/* BIENVENIDA */
 
 .welcome-section {
     text-align: center;
-    margin-bottom: 60px;
-    animation: fadeInDown 0.8s ease-out;
-}
-
-@keyframes fadeInDown {
-    from {
-        opacity: 0;
-        transform: translateY(-30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
+    margin-bottom: 50px;
 }
 
 .welcome-section h1 {
     color: #212529;
-    font-size: 42px;
-    margin-bottom: 12px;
+    font-size: 38px;
+    margin-bottom: 10px;
     font-weight: 800;
-    letter-spacing: -1px;
+    letter-spacing: -0.5px;
 }
 
 .welcome-section p {
     color: #6c757d;
-    font-size: 18px;
+    font-size: 17px;
     font-weight: 500;
 }
 
-/* Grid universidades */
+/* GRID UNIVERSIDADES */
 
 .universidades-grid {
     display: grid;
@@ -183,33 +214,11 @@ main {
     text-align: center;
     cursor: pointer;
     transition: all 0.4s ease;
-    animation: fadeInUp 0.6s ease-out backwards;
     background: white;
     padding: 30px 20px;
     border-radius: 20px;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
     border: 1px solid #e9ecef;
-}
-
-.universidad-card:nth-child(1) { animation-delay: 0.1s; }
-.universidad-card:nth-child(2) { animation-delay: 0.2s; }
-.universidad-card:nth-child(3) { animation-delay: 0.3s; }
-.universidad-card:nth-child(4) { animation-delay: 0.4s; }
-.universidad-card:nth-child(5) { animation-delay: 0.5s; }
-.universidad-card:nth-child(6) { animation-delay: 0.6s; }
-.universidad-card:nth-child(7) { animation-delay: 0.7s; }
-.universidad-card:nth-child(8) { animation-delay: 0.8s; }
-.universidad-card:nth-child(9) { animation-delay: 0.9s; }
-
-@keyframes fadeInUp {
-    from {
-        opacity: 0;
-        transform: translateY(30px);
-    }
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
 }
 
 .universidad-card:hover {
@@ -279,12 +288,6 @@ main {
     height: 100%;
     background: rgba(0, 0, 0, 0.5);
     backdrop-filter: blur(5px);
-    animation: fadeIn 0.3s ease;
-}
-
-@keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
 }
 
 .modal-content {
@@ -295,20 +298,8 @@ main {
     width: 90%;
     max-width: 520px;
     position: relative;
-    animation: modalSlideIn 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     overflow: hidden;
     box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
-}
-
-@keyframes modalSlideIn {
-    from {
-        transform: scale(0.7) translateY(-30px);
-        opacity: 0;
-    }
-    to {
-        transform: scale(1) translateY(0);
-        opacity: 1;
-    }
 }
 
 .modal-header {
@@ -326,7 +317,6 @@ main {
     font-weight: bold;
     color: white;
     cursor: pointer;
-    transition: all 0.3s ease;
     width: 40px;
     height: 40px;
     display: flex;
@@ -334,11 +324,6 @@ main {
     justify-content: center;
     border-radius: 50%;
     background: rgba(255, 255, 255, 0.2);
-}
-
-.close-modal:hover {
-    background: rgba(255, 255, 255, 0.3);
-    transform: rotate(90deg);
 }
 
 .modal-icon {
@@ -374,45 +359,51 @@ main {
     font-size: 16px;
     font-weight: 700;
     cursor: pointer;
-    transition: all 0.3s ease;
-    letter-spacing: 0.5px;
     box-shadow: 0 4px 15px rgba(201, 169, 97, 0.3);
-}
-
-.btn-modal-accept:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 8px 25px rgba(201, 169, 97, 0.4);
 }
 
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
     .header-content {
-        flex-direction: column;
-        gap: 15px;
+        padding: 4px 16px 8px;
     }
 
-    .user-info {
-        flex-direction: column;
+    .brand-text {
+        font-size: 16px;
+    }
+
+    .header-right {
         gap: 10px;
     }
 
-    .universidades-grid {
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 28px;
+    .hamburger-btn {
+        display: flex;
     }
 
-    .universidad-logo-container {
-        width: 170px;
-        height: 170px;
+    .user-info {
+        position: absolute;
+        top: 60px;
+        right: 16px;
+        background: #ffffff;
+        padding: 10px 14px;
+        border-radius: 14px;
+        box-shadow: 0 10px 30px rgba(15, 23, 42, 0.18);
+        border: 1px solid #e5e7eb;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+        min-width: 210px;
+        display: none;
     }
 
-    .universidad-logo {
-        width: 130px;
-        height: 130px;
+    .header-content.nav-open .user-info {
+        display: flex;
     }
 
-    .welcome-section h1 {
-        font-size: 32px;
+    .btn-header {
+        width: 100%;
+        justify-content: center;
+        text-align: center;
     }
 }
