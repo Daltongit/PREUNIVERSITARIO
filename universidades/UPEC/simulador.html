@@ -1,7 +1,11 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <!-- ... -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulador UPEC - Sparta Academy</title>
+    <link rel="stylesheet" href="../../css/styles.css">
+    <link rel="stylesheet" href="../../css/simulador.css">
 </head>
 <body>
     <header>
@@ -10,7 +14,7 @@
                 <img src="../../assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
                 <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
             </a>
-            
+
             <div class="user-info">
                 <span class="student-label">Estudiante:</span>
                 <span id="userName" class="student-name"></span>
@@ -19,4 +23,71 @@
             </div>
         </div>
     </header>
-    <!-- ... resto igual ... -->
+
+    <main class="simulador-container">
+        <div class="simulador-header">
+            <img src="../../assets/logos/upec.png" alt="UPEC" class="simulador-logo" id="uniLogo">
+            <div class="simulador-info">
+                <h1 id="simuladorTitulo">Simuladores Sparta Academy - UPEC</h1>
+                <p id="simuladorSubtitulo">Universidad Politécnica Estatal del Carchi</p>
+            </div>
+        </div>
+
+        <div class="materia-selector" id="materiaSelector">
+            <h2>Selecciona la Materia</h2>
+            <div class="materia-grid" id="materiaGrid"></div>
+        </div>
+
+        <div class="instrucciones" id="instrucciones">
+            <h2 id="materiaNombre"></h2>
+            <h3>Instrucciones del Examen</h3>
+            <ul>
+                <li>El examen consta de 50 preguntas de selección múltiple.</li>
+                <li>Tienes 1 hora (60 minutos) para completar el examen.</li>
+                <li>Una vez que pases a la siguiente pregunta, no podrás regresar.</li>
+                <li>Al finalizar el tiempo, el examen se cerrará automáticamente.</li>
+                <li>Asegúrate de responder todas las preguntas antes de terminar.</li>
+                <li>El puntaje se calcula sobre 1000 puntos.</li>
+            </ul>
+            <button class="btn-comenzar" id="btnComenzar">Comenzar Examen</button>
+        </div>
+
+        <div class="examen-layout" id="examenLayout">
+            <div class="examen-main">
+                <div class="pregunta-actual" id="preguntaActual"></div>
+                <button class="btn-siguiente" id="btnSiguiente">Siguiente</button>
+            </div>
+
+            <div class="examen-sidebar">
+                <div class="cronometro-card">
+                    <div class="cronometro-label">Tiempo Restante</div>
+                    <div class="cronometro-tiempo" id="cronometro">60:00</div>
+                </div>
+
+                <div class="preguntas-navegacion">
+                    <h3>Preguntas</h3>
+                    <div class="preguntas-grid" id="preguntasGrid"></div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resultados-container" id="resultadosContainer">
+            <h1>Examen Completado</h1>
+            <div class="puntaje-final" id="puntajeFinal"></div>
+            <div class="estadisticas" id="estadisticas"></div>
+            <div class="revision-section">
+                <h3>Revisión de Preguntas</h3>
+                <div id="revisionPreguntas"></div>
+            </div>
+            <div class="resultados-actions">
+                <button class="btn-comenzar" id="btnOtroIntento">Realizar Otro Intento</button>
+                <button class="btn-header" id="btnVolverInicio" style="padding: 16px 40px;">Volver al Inicio</button>
+            </div>
+        </div>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="../../js/supabase-client.js"></script>
+    <script src="simulador.js"></script>
+</body>
+</html>
