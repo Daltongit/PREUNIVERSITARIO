@@ -9,9 +9,15 @@
 <body>
     <header>
         <div class="header-content">
-            <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
+            <!-- NUEVO CONTENEDOR DE MARCA -->
+            <a href="index.html" class="brand-container">
+                <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
+                <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
+            </a>
+            
             <div class="user-info">
-                <span id="userName"></span>
+                <span class="student-label">Estudiante:</span>
+                <span id="userName" class="student-name"></span>
                 <button id="btnAdminResults" class="btn-header" style="display: none;">Ver Resultados</button>
                 <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
             </div>
@@ -26,23 +32,4 @@
 
         <div class="universidades-grid" id="universidadesGrid"></div>
     </main>
-
-    <div id="modalNoAcceso" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close-modal">&times;</span>
-                <div class="modal-icon">⛔</div>
-            </div>
-            <div class="modal-body">
-                <h2>Acceso Denegado</h2>
-                <p>No tienes permiso para acceder a este simulador. Por favor, comunícate con el administrador para solicitar acceso.</p>
-                <button class="btn-modal-accept">Entendido</button>
-            </div>
-        </div>
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="js/supabase-client.js"></script>
-    <script src="js/main.js"></script>
-</body>
-</html>
+    <!-- ... resto del html igual ... -->
