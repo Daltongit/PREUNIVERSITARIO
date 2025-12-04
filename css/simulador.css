@@ -1,4 +1,12 @@
-/* ... imports previos ... */
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+.simulador-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 30px;
+}
+
+/* HEADER DEL SIMULADOR */
 
 .simulador-header {
     background: white;
@@ -13,22 +21,84 @@
     border: 1px solid rgba(201, 169, 97, 0.1);
 }
 
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
 /* LOGO UNIVERSIDAD MÁS GRANDE */
+
 .simulador-logo {
-    width: 160px; /* Aumentado de 120px a 160px */
+    width: 160px;
     height: 160px;
     border-radius: 50%;
-    border: none; /* Quitamos borde sólido */
     object-fit: contain;
     background: white;
     padding: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08); /* Sombra más suave */
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
 
 .simulador-logo:hover {
     transform: scale(1.05);
 }
+
+.simulador-info h1 {
+    color: #212529;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 5px;
+}
+
+.simulador-info p {
+    color: #6c757d;
+    font-size: 16px;
+    font-weight: 500;
+}
+
+/* SELECCIÓN DE MATERIA */
+
+.materia-selector {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    animation: fadeInUp 0.6s ease-out;
+    border: 1px solid #e9ecef;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.materia-selector h2 {
+    color: #212529;
+    font-size: 24px;
+    font-weight: 700;
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.materia-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 25px;
+}
+
+/* TARJETAS DE MATERIA - MENOS SÓLIDAS */
 
 .materia-card {
     padding: 35px 25px;
@@ -46,7 +116,6 @@
     overflow: hidden;
 }
 
-/* EFECTO HOVER EN MATERIAS MÁS ELEGANTE */
 .materia-card::before {
     content: '';
     position: absolute;
@@ -70,7 +139,62 @@
     transform: scaleX(1);
 }
 
-/* BOTÓN COMENZAR REDISEÑADO */
+/* INSTRUCCIONES */
+
+.instrucciones {
+    background: white;
+    padding: 45px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    display: none;
+    animation: fadeInUp 0.6s ease-out;
+    border: 1px solid #e9ecef;
+}
+
+.instrucciones.active {
+    display: block;
+}
+
+.instrucciones h2 {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-size: 28px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.instrucciones h3 {
+    color: #212529;
+    font-size: 20px;
+    font-weight: 700;
+    margin: 25px 0 20px;
+}
+
+.instrucciones ul {
+    list-style: none;
+    padding: 0;
+}
+
+.instrucciones li {
+    padding: 16px 20px;
+    background: #f8f9fa;
+    border-left: 4px solid #C9A961;
+    margin-bottom: 12px;
+    border-radius: 8px;
+    color: #495057;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.instrucciones li:hover {
+    background: #fff8e7;
+    transform: translateX(5px);
+}
+
+/* BOTÓN COMENZAR */
+
 .btn-comenzar {
     padding: 18px 60px;
     background: white;
@@ -111,7 +235,181 @@
     width: 100%;
 }
 
-/* BOTÓN SIGUIENTE REDISEÑADO */
+/* LAYOUT EXAMEN */
+
+.examen-layout {
+    display: none;
+    grid-template-columns: 1fr 320px;
+    gap: 30px;
+    animation: fadeIn 0.6s ease-out;
+}
+
+.examen-layout.active {
+    display: grid;
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.examen-main {
+    background: white;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.examen-sidebar {
+    position: sticky;
+    top: 110px;
+    height: fit-content;
+}
+
+/* CRONÓMETRO */
+
+.cronometro-card {
+    background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
+    padding: 25px;
+    border-radius: 16px;
+    text-align: center;
+    margin-bottom: 20px;
+    box-shadow: 0 6px 20px rgba(239, 68, 68, 0.3);
+}
+
+.cronometro-label {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 1px;
+}
+
+.cronometro-tiempo {
+    font-size: 42px;
+    font-weight: 800;
+    color: white;
+    font-family: 'Courier New', monospace;
+    letter-spacing: 2px;
+}
+
+/* NAVEGACIÓN PREGUNTAS */
+
+.preguntas-navegacion {
+    background: white;
+    padding: 25px;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    border: 1px solid #e9ecef;
+}
+
+.preguntas-navegacion h3 {
+    color: #212529;
+    font-size: 16px;
+    font-weight: 700;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.preguntas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+
+.pregunta-nav-btn {
+    width: 42px;
+    height: 42px;
+    border: 1px solid #e9ecef;
+    background: white;
+    border-radius: 12px;
+    font-weight: 600;
+    font-size: 14px;
+    color: #adb5bd;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.pregunta-nav-btn.actual {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    color: white;
+    border: none;
+    box-shadow: 0 4px 10px rgba(201, 169, 97, 0.3);
+    transform: scale(1.1);
+}
+
+.pregunta-nav-btn.contestada {
+    background: white;
+    border: 2px solid #10b981;
+    color: #10b981;
+}
+
+/* PREGUNTA ACTUAL */
+
+.pregunta-actual {
+    margin-bottom: 35px;
+}
+
+.pregunta-numero {
+    background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 800;
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+.pregunta-texto {
+    font-size: 20px;
+    color: #212529;
+    line-height: 1.7;
+    margin-bottom: 30px;
+    font-weight: 500;
+}
+
+/* OPCIONES */
+
+.opciones {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.opcion {
+    padding: 20px 25px;
+    border: 1px solid #e9ecef;
+    border-radius: 16px;
+    background: white;
+    transition: all 0.2s ease;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+    font-size: 16px;
+    color: #495057;
+    font-weight: 500;
+}
+
+.opcion:hover {
+    border-color: #C9A961;
+    background: #fffcf5;
+    transform: translateX(5px);
+}
+
+.opcion.selected {
+    border: 2px solid #C9A961;
+    background: #fff8e7;
+    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.15);
+}
+
+.opcion strong {
+    color: #C9A961;
+    margin-right: 12px;
+    font-size: 18px;
+}
+
+/* BOTÓN SIGUIENTE / TERMINAR */
+
 .btn-siguiente {
     padding: 16px 50px;
     background: white;
@@ -151,7 +449,6 @@
     width: 100%;
 }
 
-/* BOTÓN TERMINAR REDISEÑADO */
 .btn-terminar {
     color: #ef4444;
     border-color: #ef4444;
@@ -161,55 +458,147 @@
     background: linear-gradient(135deg, #ef4444 0%, #dc2626 100%);
 }
 
-.btn-terminar:hover {
-    box-shadow: 0 8px 25px rgba(239, 68, 68, 0.25);
-}
+/* RESULTADOS */
 
-/* NAV PREGUNTAS MEJORADO */
-.pregunta-nav-btn {
-    width: 42px;
-    height: 42px;
-    border: 1px solid #e9ecef;
+.resultados-container {
     background: white;
-    border-radius: 12px;
-    font-weight: 600;
-    font-size: 14px;
-    color: #adb5bd;
-    transition: all 0.2s ease;
+    padding: 50px;
+    border-radius: 20px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06);
+    display: none;
+    text-align: center;
+    animation: fadeInUp 0.6s ease-out;
+    border: 1px solid #e9ecef;
 }
 
-.pregunta-nav-btn.actual {
+.resultados-container.active {
+    display: block;
+}
+
+.resultados-container h1 {
+    color: #212529;
+    font-size: 32px;
+    font-weight: 800;
+    margin-bottom: 30px;
+}
+
+.puntaje-final {
+    font-size: 64px;
     background: linear-gradient(135deg, #C9A961 0%, #B8954F 100%);
-    color: white;
-    border: none;
-    box-shadow: 0 4px 10px rgba(201, 169, 97, 0.3);
-    transform: scale(1.1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-weight: 900;
+    margin: 30px 0;
 }
 
-.pregunta-nav-btn.contestada {
-    background: white;
-    border: 2px solid #10b981;
-    color: #10b981;
+/* ESTADÍSTICAS */
+
+.estadisticas {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 25px;
+    margin: 40px 0;
 }
 
-/* OPCIONES MEJORADAS */
-.opcion {
-    padding: 20px 25px;
-    border: 1px solid #e9ecef;
+.estadistica {
+    padding: 30px;
+    background: #f8f9fa;
     border-radius: 16px;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.estadistica:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+}
+
+.estadistica h3 {
+    color: #C9A961;
+    font-size: 42px;
+    font-weight: 800;
+    margin-bottom: 10px;
+}
+
+.estadistica p {
+    color: #6c757d;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+/* REVISIÓN */
+
+.revision-section h3 {
+    color: #212529;
+    font-size: 24px;
+    font-weight: 700;
+    margin: 40px 0 25px;
+    text-align: left;
+}
+
+.revision-pregunta {
+    text-align: left;
+    padding: 25px;
+    background: #f8f9fa;
+    border-radius: 14px;
+    margin-bottom: 18px;
+    border-left: 4px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.revision-pregunta:hover {
     background: white;
-    transition: all 0.2s ease;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.02);
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
 }
 
-.opcion:hover {
-    border-color: #C9A961;
-    background: #fffcf5;
-    transform: translateX(5px);
+.respuesta-correcta {
+    color: #10b981;
+    font-weight: 700;
 }
 
-.opcion.selected {
-    border: 2px solid #C9A961;
-    background: #fff8e7;
-    box-shadow: 0 4px 15px rgba(201, 169, 97, 0.15);
+.respuesta-incorrecta {
+    color: #ef4444;
+    font-weight: 700;
+}
+
+/* BOTONES FINALES */
+
+.resultados-actions {
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+}
+
+/* RESPONSIVE */
+
+@media (max-width: 1024px) {
+    .examen-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .examen-sidebar {
+        position: static;
+    }
+
+    .cronometro-card {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        z-index: 100;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px) {
+    .simulador-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .preguntas-grid {
+        grid-template-columns: repeat(4, 1fr);
+    }
 }
