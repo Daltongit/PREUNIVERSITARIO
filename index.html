@@ -8,17 +8,23 @@
 </head>
 <body>
     <header>
-        <div class="header-content">
+        <div class="header-content" id="headerContent">
             <a href="index.html" class="brand-container">
                 <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
                 <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
             </a>
 
-            <div class="user-info">
-                <span class="student-label">Estudiante:</span>
-                <span id="userName" class="student-name"></span>
-                <button id="btnAdminResults" class="btn-header" style="display: none;">Ver Resultados</button>
-                <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+            <div class="header-right">
+                <div class="user-info" id="userInfo">
+                    <span class="student-label">Estudiante:</span>
+                    <span id="userName" class="student-name"></span>
+                    <button id="btnAdminResults" class="btn-header" style="display: none;">Ver Resultados</button>
+                    <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+                </div>
+
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú">
+                    <span class="hamburger-line"></span>
+                </button>
             </div>
         </div>
     </header>
