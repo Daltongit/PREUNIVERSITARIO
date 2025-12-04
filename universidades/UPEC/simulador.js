@@ -28,6 +28,12 @@ document.addEventListener('DOMContentLoaded', function () {
         return;
     }
 
+    const headerContent = document.getElementById('headerContent');
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    hamburgerBtn.addEventListener('click', () => {
+        headerContent.classList.toggle('nav-open');
+    });
+
     const urlParams = new URLSearchParams(window.location.search);
     const uniParam = urlParams.get('uni');
     if (uniParam) codigoUniversidad = uniParam;
