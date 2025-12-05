@@ -110,7 +110,7 @@
     gap: 22px;
 }
 
-/* TARJETAS DE MATERIA PREMIUM */
+/* TARJETAS DE MATERIA */
 
 .materia-card {
     position: relative;
@@ -179,7 +179,7 @@
     border-color: rgba(201, 169, 97, 0.6);
 }
 
-/* INSTRUCCIONES - OCULTO POR DEFECTO */
+/* INSTRUCCIONES */
 
 .instrucciones {
     background: #ffffff;
@@ -226,13 +226,13 @@
     font-size: 14px;
 }
 
-/* BOTÓN COMENZAR */
+/* BOTÓN COMENZAR (verde principal) */
 
 .btn-comenzar {
     margin-top: 26px;
     border-radius: 999px;
     border: none;
-    padding: 14px 42px;
+    padding: 14px 36px;
     background: linear-gradient(135deg, #10b981, #059669);
     color: #ffffff;
     font-weight: 700;
@@ -258,7 +258,7 @@
     box-shadow: 0 14px 30px rgba(16, 185, 129, 0.45);
 }
 
-/* LAYOUT EXAMEN - OCULTO POR DEFECTO */
+/* LAYOUT EXAMEN */
 
 .examen-layout {
     display: none;
@@ -285,7 +285,7 @@
     height: fit-content;
 }
 
-/* CRONÓMETRO */
+/* CRONÓMETRO (USA ROJO DEL LOGO) */
 
 .cronometro-card {
     background: linear-gradient(135deg, #f97373, #ef4444);
@@ -425,7 +425,7 @@
 .btn-siguiente {
     margin-top: 26px;
     border-radius: 999px;
-    padding: 13px 40px;
+    padding: 13px 34px;
     border: 2px solid #C9A961;
     background: #ffffff;
     color: #C9A961;
@@ -466,7 +466,7 @@
     box-shadow: 0 10px 22px rgba(239, 68, 68, 0.35);
 }
 
-/* RESULTADOS - OCULTO POR DEFECTO */
+/* RESULTADOS */
 
 .resultados-container {
     background: #ffffff;
@@ -525,7 +525,7 @@
     font-size: 14px;
 }
 
-/* REVISIÓN */
+/* REVISIÓN: TARJETAS CON ROJO */
 
 .revision-section {
     text-align: left;
@@ -539,103 +539,7 @@
 }
 
 .revision-pregunta {
-    text-align: left;
-    padding: 20px;
-    border-radius: 16px;
-    background: #f9fafb;
-    border-left: 4px solid #e5e7eb;
-    margin-bottom: 14px;
-    font-size: 14px;
-    color: #374151;
-}
-
-.respuesta-correcta {
-    color: #10b981;
-    font-weight: 700;
-}
-
-.respuesta-incorrecta {
-    color: #ef4444;
-    font-weight: 700;
-}
-
-.resultados-actions {
-    display: flex;
-    justify-content: center;
-    gap: 18px;
-    margin-top: 28px;
-    flex-wrap: wrap;
-}
-
-/* RESPONSIVE */
-
-@media (max-width: 1024px) {
-    .examen-layout.active {
-        grid-template-columns: 1fr;
-    }
-
-    .examen-sidebar {
-        position: static;
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 18px;
-    }
-
-    .cronometro-card {
-        margin-bottom: 0;
-    }
-}
-
-@media (max-width: 768px) {
-    .simulador-container {
-        padding: 20px;
-    }
-
-    .simulador-header {
-        flex-direction: column;
-        text-align: center;
-        padding: 30px;
-    }
-
-    .simulador-logo-ring {
-        width: 160px;
-        height: 160px;
-    }
-
-    .simulador-logo {
-        width: 120px;
-        height: 120px;
-    }
-
-    .simulador-info h1 {
-        font-size: 22px;
-    }
-
-    .materia-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .examen-sidebar {
-        grid-template-columns: 1fr;
-    }
-
-    .preguntas-grid {
-        grid-template-columns: repeat(5, 1fr);
-    }
-
-    .examen-main {
-        padding: 24px;
-    }
-
-    .instrucciones {
-        padding: 28px;
-    }
-
-    .resultados-container {
-        padding: 28px;
-    }
-
-    .puntaje-final {
-        font-size: 48px;
-    }
-}
+    position: relative;
+    padding: 18px 20px 16px;
+    border-radius: 18px;
+    background: radial-gradient(circle at top left,
