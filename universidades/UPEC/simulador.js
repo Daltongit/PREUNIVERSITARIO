@@ -76,6 +76,27 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnSiguiente').addEventListener('click', siguientePregunta);
     document.getElementById('btnOtroIntento').addEventListener('click', reiniciarSimulador);
     document.getElementById('btnVolverInicio').addEventListener('click', () => window.location.href = '../../index.html');
+
+    // botones del modal de confirmar
+    const modalConfirmar = document.getElementById('modalConfirmar');
+    const btnCancelarTerminar = document.getElementById('btnCancelarTerminar');
+    const btnConfirmarTerminar = document.getElementById('btnConfirmarTerminar');
+
+    btnCancelarTerminar.addEventListener('click', () => {
+        modalConfirmar.classList.remove('active');
+    });
+
+    btnConfirmarTerminar.addEventListener('click', () => {
+        modalConfirmar.classList.remove('active');
+        finalizarExamen();
+    });
+
+    // cerrar modal clickeando fuera
+    modalConfirmar.addEventListener('click', (e) => {
+        if (e.target === modalConfirmar) {
+            modalConfirmar.classList.remove('active');
+        }
+    });
 });
 
 function seleccionarMateria(materia) {
@@ -194,9 +215,8 @@ function mostrarPregunta() {
 
 function siguientePregunta() {
     if (preguntaIndex === preguntasExamen.length - 1) {
-        if (confirm('¿Estás seguro que quieres terminar el intento?')) {
-            finalizarExamen();
-        }
+        // abre modal bonito en vez de confirm()
+        document.getElementById('modalConfirmar').classList.add('active');
     } else {
         preguntaIndex++;
         mostrarPregunta();
