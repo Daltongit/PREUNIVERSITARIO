@@ -92,10 +92,25 @@
             </div>
             <div class="resultados-actions">
                 <button class="btn-comenzar" id="btnOtroIntento"><span>Realizar Otro Intento</span></button>
-                <button class="btn-header" id="btnVolverInicio" style="padding: 14px 34px;">Volver al Inicio</button>
+                <button class="btn-header btn-volver-peque" id="btnVolverInicio">Volver al Inicio</button>
             </div>
         </section>
     </main>
+
+    <!-- MODAL CONFIRMAR TERMINAR EXAMEN -->
+    <div class="modal-overlay" id="modalConfirmar">
+        <div class="modal-card">
+            <div class="modal-icon-circle modal-icon-warning">
+                <span>!</span>
+            </div>
+            <h2>¿Terminar el intento?</h2>
+            <p>Si terminas ahora, se guardarán tus respuestas y ya no podrás modificar el examen.</p>
+            <div class="modal-actions">
+                <button class="btn-modal-secundario" id="btnCancelarTerminar">Seguir resolviendo</button>
+                <button class="btn-modal-primario" id="btnConfirmarTerminar">Sí, terminar examen</button>
+            </div>
+        </div>
+    </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="../../js/supabase-client.js"></script>
