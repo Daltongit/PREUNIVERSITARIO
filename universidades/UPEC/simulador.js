@@ -41,8 +41,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const uniInfo = universidadesInfo[codigoUniversidad];
     if (uniInfo) {
         document.getElementById('uniLogo').src = `../../assets/logos/${uniInfo.logo}`;
-        document.getElementById('simuladorTitulo').textContent =
-            `Simuladores Sparta Academy – ${codigoUniversidad}`;
+        document.getElementById('simuladorTitulo').textContent = `Simuladores Sparta Academy – ${codigoUniversidad}`;
         document.getElementById('simuladorSubtitulo').textContent = uniInfo.nombre;
     }
 
@@ -77,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnOtroIntento').addEventListener('click', reiniciarSimulador);
     document.getElementById('btnVolverInicio').addEventListener('click', () => window.location.href = '../../index.html');
 
-    // botones del modal de confirmar
     const modalConfirmar = document.getElementById('modalConfirmar');
     const btnCancelarTerminar = document.getElementById('btnCancelarTerminar');
     const btnConfirmarTerminar = document.getElementById('btnConfirmarTerminar');
@@ -91,7 +89,6 @@ document.addEventListener('DOMContentLoaded', function () {
         finalizarExamen();
     });
 
-    // cerrar modal clickeando fuera
     modalConfirmar.addEventListener('click', (e) => {
         if (e.target === modalConfirmar) {
             modalConfirmar.classList.remove('active');
@@ -112,10 +109,7 @@ async function comenzarExamen() {
         const response = await fetch(`data/${materiaFile}.json`);
         const todasPreguntas = await response.json();
 
-        preguntasExamen = todasPreguntas
-            .sort(() => Math.random() - 0.5)
-            .slice(0, Math.min(50, todasPreguntas.length));
-
+        preguntasExamen = todasPreguntas.sort(() => Math.random() - 0.5).slice(0, Math.min(50, todasPreguntas.length));
         respuestasUsuario = new Array(preguntasExamen.length).fill(null);
         preguntaIndex = 0;
         horaInicio = new Date();
@@ -215,7 +209,6 @@ function mostrarPregunta() {
 
 function siguientePregunta() {
     if (preguntaIndex === preguntasExamen.length - 1) {
-        // abre modal bonito en vez de confirm()
         document.getElementById('modalConfirmar').classList.add('active');
     } else {
         preguntaIndex++;
@@ -255,27 +248,21 @@ async function finalizarExamen() {
 async function guardarIntento(puntaje, correctas, incorrectas, enBlanco, revision) {
     const horaFin = new Date();
     try {
-        const { error } = await supabaseClient
-            .from('intentos')
-            .insert([{
-                usuario: usuarioActual.usuario,
-                nombre_completo: usuarioActual.nombre,
-                ciudad: usuarioActual.ciudad,
-                universidad_codigo: codigoUniversidad,
-                materia_nombre: materiaActual,
-                puntaje_obtenido: puntaje,
-                total_preguntas: preguntasExamen.length,
-                correctas,
-                incorrectas,
-                en_blanco: enBlanco,
-                tiempo_inicio: horaInicio.toISOString(),
-                tiempo_fin: horaFin.toISOString(),
-                respuestas: revision
-            }]);
+        const { error } = await supabaseClient.from('intentos').insert([{
+            usuario: usuarioActual.usuario,
+            nombre_completo: usuarioActual.nombre,
+            ciudad: usuarioActual.ciudad,
+            universidad_codigo: codigoUniversidad,
+            materia_nombre: materiaActual,
+            puntaje_obtenido: puntaje,
+            total_preguntas: preguntasExamen.length,
+            correctas, incorrectas, en_blanco: enBlanco,
+            tiempo_inicio: horaInicio.toISOString(),
+            tiempo_fin: horaFin.toISOString(),
+            respuestas: revision
+        }]);
         if (error) console.error('Error al guardar intento:', error);
-    } catch (err) {
-        console.error('Error:', err);
-    }
+    } catch (err) { console.error('Error:', err); }
 }
 
 function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) {
@@ -285,22 +272,10 @@ function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) 
     document.getElementById('puntajeFinal').textContent = `${puntaje}/1000`;
 
     document.getElementById('estadisticas').innerHTML = `
-        <div class="estadistica">
-            <h3>${preguntasExamen.length}</h3>
-            <p>Total de Preguntas</p>
-        </div>
-        <div class="estadistica">
-            <h3>${correctas}</h3>
-            <p>Correctas</p>
-        </div>
-        <div class="estadistica">
-            <h3>${incorrectas}</h3>
-            <p>Incorrectas</p>
-        </div>
-        <div class="estadistica">
-            <h3>${enBlanco}</h3>
-            <p>En Blanco</p>
-        </div>
+        <div class="estadistica"><h3>${preguntasExamen.length}</h3><p>Total de Preguntas</p></div>
+        <div class="estadistica"><h3>${correctas}</h3><p>Correctas</p></div>
+        <div class="estadistica"><h3>${incorrectas}</h3><p>Incorrectas</p></div>
+        <div class="estadistica"><h3>${enBlanco}</h3><p>En Blanco</p></div>
     `;
 
     let revisionHTML = '';
