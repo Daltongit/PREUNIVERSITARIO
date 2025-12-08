@@ -33,7 +33,7 @@ header {
     align-items: center;
 }
 
-/* Marca Sparta (logo + texto) */
+/* Marca Sparta */
 
 .brand-container {
     display: flex;
@@ -60,15 +60,13 @@ header {
     background-clip: text;
 }
 
-/* LADO DERECHO HEADER */
+/* Lado Derecho Header */
 
 .header-right {
     display: flex;
     align-items: center;
     gap: 16px;
 }
-
-/* Info usuario */
 
 .user-info {
     display: flex;
@@ -91,8 +89,6 @@ header {
     font-size: 16px;
 }
 
-/* Botones header */
-
 .btn-header {
     padding: 9px 22px;
     background: transparent;
@@ -112,7 +108,7 @@ header {
     box-shadow: 0 4px 14px rgba(201, 169, 97, 0.4);
 }
 
-/* HAMBURGER (SOLO MÓVIL) */
+/* Menú Hamburguesa (Móvil) */
 
 .hamburger-btn {
     display: none;
@@ -148,29 +144,12 @@ header {
     transition: all 0.25s ease;
 }
 
-.hamburger-line::before {
-    top: -6px;
-}
+.hamburger-line::before { top: -6px; }
+.hamburger-line::after { top: 6px; }
 
-.hamburger-line::after {
-    top: 6px;
-}
-
-/* estado abierto */
-
-.header-content.nav-open .hamburger-line {
-    background: transparent;
-}
-
-.header-content.nav-open .hamburger-line::before {
-    top: 0;
-    transform: rotate(45deg);
-}
-
-.header-content.nav-open .hamburger-line::after {
-    top: 0;
-    transform: rotate(-45deg);
-}
+.header-content.nav-open .hamburger-line { background: transparent; }
+.header-content.nav-open .hamburger-line::before { top: 0; transform: rotate(45deg); }
+.header-content.nav-open .hamburger-line::after { top: 0; transform: rotate(-45deg); }
 
 /* MAIN */
 
@@ -179,8 +158,6 @@ main {
     margin: 0 auto;
     padding: 40px 20px 50px;
 }
-
-/* BIENVENIDA */
 
 .welcome-section {
     text-align: center;
@@ -201,7 +178,7 @@ main {
     font-weight: 500;
 }
 
-/* GRID UNIVERSIDADES */
+/* Grid Universidades */
 
 .universidades-grid {
     display: grid;
@@ -235,11 +212,11 @@ main {
     overflow: hidden;
     border: 4px solid #C9A961;
     box-shadow: 0 8px 20px rgba(201, 169, 97, 0.15);
-    transition: all 0.4s ease;
     background: white;
     display: flex;
     align-items: center;
     justify-content: center;
+    transition: all 0.4s ease;
 }
 
 .universidad-card:hover .universidad-logo-container {
@@ -254,9 +231,7 @@ main {
     transition: transform 0.4s ease;
 }
 
-.universidad-card:hover .universidad-logo {
-    transform: scale(1.1);
-}
+.universidad-card:hover .universidad-logo { transform: scale(1.1); }
 
 .universidad-nombre {
     font-size: 16px;
@@ -276,7 +251,7 @@ main {
     letter-spacing: 1px;
 }
 
-/* MODAL NO ACCESO */
+/* Modal Acceso Denegado */
 
 .modal {
     display: none;
@@ -326,15 +301,9 @@ main {
     background: rgba(255, 255, 255, 0.2);
 }
 
-.modal-icon {
-    font-size: 70px;
-    color: white;
-}
+.modal-icon { font-size: 70px; color: white; }
 
-.modal-body {
-    padding: 40px;
-    text-align: center;
-}
+.modal-body { padding: 40px; text-align: center; }
 
 .modal-body h2 {
     color: #212529;
@@ -365,21 +334,10 @@ main {
 /* RESPONSIVE */
 
 @media (max-width: 768px) {
-    .header-content {
-        padding: 4px 16px 8px;
-    }
-
-    .brand-text {
-        font-size: 16px;
-    }
-
-    .header-right {
-        gap: 10px;
-    }
-
-    .hamburger-btn {
-        display: flex;
-    }
+    .header-content { padding: 4px 16px 8px; }
+    .brand-text { font-size: 16px; }
+    .header-right { gap: 10px; }
+    .hamburger-btn { display: flex; }
 
     .user-info {
         position: absolute;
@@ -397,13 +355,6 @@ main {
         display: none;
     }
 
-    .header-content.nav-open .user-info {
-        display: flex;
-    }
-
-    .btn-header {
-        width: 100%;
-        justify-content: center;
-        text-align: center;
-    }
+    .header-content.nav-open .user-info { display: flex; }
+    .btn-header { width: 100%; justify-content: center; text-align: center; }
 }
