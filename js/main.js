@@ -43,12 +43,10 @@ document.addEventListener('DOMContentLoaded', function () {
         window.location.href = 'admin-resultados.html';
     });
 
-    // hamburguesa
     hamburgerBtn.addEventListener('click', () => {
         headerContent.classList.toggle('nav-open');
     });
 
-    // modal
     closeModal.addEventListener('click', () => modal.style.display = 'none');
     btnModalAccept.addEventListener('click', () => modal.style.display = 'none');
     window.addEventListener('click', e => {
