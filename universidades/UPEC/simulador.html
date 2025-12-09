@@ -31,7 +31,6 @@
     </header>
 
     <main class="simulador-container">
-        <!-- HEADER SIMULADOR -->
         <section class="simulador-header">
             <div class="simulador-logo-wrapper">
                 <div class="simulador-logo-ring">
@@ -44,19 +43,17 @@
             </div>
         </section>
 
-        <!-- SELECTOR MATERIAS -->
         <section class="materia-selector" id="materiaSelector">
             <h2>Selecciona la Materia</h2>
             <p class="materia-subtitle">Elige la materia que deseas practicar en este simulador</p>
             <div class="materia-grid" id="materiaGrid"></div>
         </section>
 
-        <!-- INSTRUCCIONES -->
         <section class="instrucciones" id="instrucciones">
             <h2 id="materiaNombre"></h2>
             <h3>Instrucciones del Examen</h3>
-            <ul>
-                <li>El examen consta de 50 preguntas de selección múltiple.</li>
+            <ul id="listaInstrucciones">
+                <li>El examen consta de <strong id="numPreguntas">50</strong> preguntas de selección múltiple.</li>
                 <li>Tienes 1 hora (60 minutos) para completar el examen.</li>
                 <li>Una vez que pases a la siguiente pregunta, no podrás regresar.</li>
                 <li>Al finalizar el tiempo, el examen se cerrará automáticamente.</li>
@@ -66,7 +63,6 @@
             <button class="btn-comenzar" id="btnComenzar"><span>Comenzar Examen</span></button>
         </section>
 
-        <!-- EXAMEN AREA -->
         <section class="examen-layout" id="examenLayout">
             <div class="examen-main">
                 <div class="pregunta-actual" id="preguntaActual"></div>
@@ -75,7 +71,7 @@
 
             <aside class="examen-sidebar">
                 <div class="cronometro-card">
-                    <div class="cronometro-label">Tiempo Restante</div>
+                    <div class="cronometro-label">TIEMPO RESTANTE</div>
                     <div class="cronometro-tiempo" id="cronometro">60:00</div>
                 </div>
 
@@ -83,10 +79,12 @@
                     <h3>Preguntas</h3>
                     <div class="preguntas-grid" id="preguntasGrid"></div>
                 </div>
+
+                <!-- BOTÓN TERMINAR INTENTO (SIEMPRE VISIBLE) -->
+                <button class="btn-terminar-intento" id="btnTerminarAhora">Terminar Intento</button>
             </aside>
         </section>
 
-        <!-- RESULTADOS -->
         <section class="resultados-container" id="resultadosContainer">
             <h1>Examen Completado</h1>
             <div class="puntaje-final" id="puntajeFinal"></div>
