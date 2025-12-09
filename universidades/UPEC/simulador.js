@@ -75,6 +75,11 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnSiguiente').addEventListener('click', siguientePregunta);
     document.getElementById('btnOtroIntento').addEventListener('click', reiniciarSimulador);
     document.getElementById('btnVolverInicio').addEventListener('click', () => window.location.href = '../../index.html');
+    
+    // BOTÓN TERMINAR AHORA (siempre visible)
+    document.getElementById('btnTerminarAhora').addEventListener('click', () => {
+        document.getElementById('modalConfirmar').classList.add('active');
+    });
 
     const modalConfirmar = document.getElementById('modalConfirmar');
     const btnCancelarTerminar = document.getElementById('btnCancelarTerminar');
@@ -100,7 +105,24 @@ function seleccionarMateria(materia) {
     materiaActual = materia;
     document.getElementById('materiaNombre').textContent = `Materia: ${materia}`;
     document.getElementById('materiaSelector').style.display = 'none';
-    document.getElementById('instrucciones').classList.add('active');
+    
+    // Cargar preview para actualizar instrucciones
+    cargarPreviewPreguntas(materia);
+}
+
+async function cargarPreviewPreguntas(materia) {
+    try {
+        const materiaFile = materia.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
+        const response = await fetch(`data/${materiaFile}.json`);
+        const todasPreguntas = await response.json();
+        
+        // Actualizar número de preguntas en instrucciones
+        document.getElementById('numPreguntas').textContent = todasPreguntas.length;
+        document.getElementById('instrucciones').classList.add('active');
+    } catch (error) {
+        console.error('Error al cargar preguntas:', error);
+        alert('Error al cargar el examen. Intenta nuevamente.');
+    }
 }
 
 async function comenzarExamen() {
@@ -109,7 +131,7 @@ async function comenzarExamen() {
         const response = await fetch(`data/${materiaFile}.json`);
         const todasPreguntas = await response.json();
 
-        preguntasExamen = todasPreguntas.sort(() => Math.random() - 0.5).slice(0, Math.min(50, todasPreguntas.length));
+        preguntasExamen = todasPreguntas.sort(() => Math.random() - 0.5);
         respuestasUsuario = new Array(preguntasExamen.length).fill(null);
         preguntaIndex = 0;
         horaInicio = new Date();
@@ -195,24 +217,15 @@ function mostrarPregunta() {
         });
     });
 
-    const btnSiguiente = document.getElementById('btnSiguiente');
-    if (preguntaIndex === preguntasExamen.length - 1) {
-        btnSiguiente.textContent = 'Terminar Examen';
-        btnSiguiente.classList.add('btn-terminar');
-    } else {
-        btnSiguiente.textContent = 'Siguiente';
-        btnSiguiente.classList.remove('btn-terminar');
-    }
-
     actualizarNavegacion();
 }
 
 function siguientePregunta() {
-    if (preguntaIndex === preguntasExamen.length - 1) {
-        document.getElementById('modalConfirmar').classList.add('active');
-    } else {
+    if (preguntaIndex < preguntasExamen.length - 1) {
         preguntaIndex++;
         mostrarPregunta();
+    } else {
+        document.getElementById('modalConfirmar').classList.add('active');
     }
 }
 
@@ -239,7 +252,17 @@ async function finalizarExamen() {
         };
     });
 
-    const puntaje = Math.round((correctas / preguntasExamen.length) * 1000);
+    // CÁLCULO DINÁMICO: cada pregunta vale 1000/total
+    const puntajePorPregunta = 1000 / preguntasExamen.length;
+    let puntajeBruto = correctas * puntajePorPregunta;
+    
+    // Ajuste para llegar exactamente a 1000 si responde todo bien
+    let puntaje = Math.round(puntajeBruto);
+    
+    // Si todas correctas, forzar a 1000
+    if (correctas === preguntasExamen.length) {
+        puntaje = 1000;
+    }
 
     await guardarIntento(puntaje, correctas, incorrectas, enBlanco, revision);
     mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision);
@@ -283,7 +306,7 @@ function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) 
         const clase = item.esCorrecta ? 'respuesta-correcta' : 'respuesta-incorrecta';
         revisionHTML += `
             <div class="revision-pregunta">
-                <strong>Pregunta ${index + 1}:</strong> ${item.pregunta}<br><br>
+                <strong>Pregunta ${index + 1}:</strong> ${item.pregunta.replace(/\n/g, '<br>')}<br><br>
                 <span class="${clase}">Tu respuesta: ${item.respuestaUsuario}</span><br>
                 ${!item.esCorrecta ? `<span class="respuesta-correcta">Respuesta correcta: ${item.respuestaCorrecta}</span>` : ''}
             </div>
