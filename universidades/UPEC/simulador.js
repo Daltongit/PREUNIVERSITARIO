@@ -76,7 +76,6 @@ document.addEventListener('DOMContentLoaded', function () {
     document.getElementById('btnOtroIntento').addEventListener('click', reiniciarSimulador);
     document.getElementById('btnVolverInicio').addEventListener('click', () => window.location.href = '../../index.html');
     
-    // BOTÓN TERMINAR AHORA (siempre visible)
     document.getElementById('btnTerminarAhora').addEventListener('click', () => {
         document.getElementById('modalConfirmar').classList.add('active');
     });
@@ -106,7 +105,6 @@ function seleccionarMateria(materia) {
     document.getElementById('materiaNombre').textContent = `Materia: ${materia}`;
     document.getElementById('materiaSelector').style.display = 'none';
     
-    // Cargar preview para actualizar instrucciones
     cargarPreviewPreguntas(materia);
 }
 
@@ -116,7 +114,6 @@ async function cargarPreviewPreguntas(materia) {
         const response = await fetch(`data/${materiaFile}.json`);
         const todasPreguntas = await response.json();
         
-        // Actualizar número de preguntas en instrucciones
         document.getElementById('numPreguntas').textContent = todasPreguntas.length;
         document.getElementById('instrucciones').classList.add('active');
     } catch (error) {
@@ -246,20 +243,18 @@ async function finalizarExamen() {
 
         return {
             pregunta: pregunta.pregunta,
-            respuestaUsuario: respuestaUsuario || 'Sin responder',
-            respuestaCorrecta: pregunta.respuesta_correcta,
+            respuestaUsuarioLetra: respuestaUsuario || 'Sin responder',
+            respuestaUsuarioTexto: respuestaUsuario ? pregunta.opciones[respuestaUsuario] : 'Sin responder',
+            respuestaCorrectaLetra: pregunta.respuesta_correcta,
+            respuestaCorrectaTexto: pregunta.opciones[pregunta.respuesta_correcta],
             esCorrecta
         };
     });
 
-    // CÁLCULO DINÁMICO: cada pregunta vale 1000/total
     const puntajePorPregunta = 1000 / preguntasExamen.length;
     let puntajeBruto = correctas * puntajePorPregunta;
-    
-    // Ajuste para llegar exactamente a 1000 si responde todo bien
     let puntaje = Math.round(puntajeBruto);
     
-    // Si todas correctas, forzar a 1000
     if (correctas === preguntasExamen.length) {
         puntaje = 1000;
     }
@@ -303,12 +298,23 @@ function mostrarResultados(puntaje, correctas, incorrectas, enBlanco, revision) 
 
     let revisionHTML = '';
     revision.forEach((item, index) => {
-        const clase = item.esCorrecta ? 'respuesta-correcta' : 'respuesta-incorrecta';
         revisionHTML += `
             <div class="revision-pregunta">
                 <strong>Pregunta ${index + 1}:</strong> ${item.pregunta.replace(/\n/g, '<br>')}<br><br>
-                <span class="${clase}">Tu respuesta: ${item.respuestaUsuario}</span><br>
-                ${!item.esCorrecta ? `<span class="respuesta-correcta">Respuesta correcta: ${item.respuestaCorrecta}</span>` : ''}
+                
+                ${item.respuestaUsuarioLetra === 'Sin responder' 
+                    ? '<span class="respuesta-incorrecta">❌ No respondiste esta pregunta.</span>' 
+                    : item.esCorrecta 
+                        ? `<span class="respuesta-correcta">✅ Escogiste la respuesta correcta: <strong>${item.respuestaUsuarioTexto}</strong></span>` 
+                        : `<span class="respuesta-incorrecta">❌ Escogiste la respuesta incorrecta: <strong>${item.respuestaUsuarioTexto}</strong></span>`
+                }
+                
+                ${!item.esCorrecta && item.respuestaUsuarioLetra !== 'Sin responder' 
+                    ? `<br><span class="respuesta-correcta">✓ La respuesta correcta era: <strong>${item.respuestaCorrectaTexto}</strong></span>` 
+                    : item.respuestaUsuarioLetra === 'Sin responder' 
+                        ? `<br><span class="respuesta-correcta">✓ La respuesta correcta era: <strong>${item.respuestaCorrectaTexto}</strong></span>` 
+                        : ''
+                }
             </div>
         `;
     });
