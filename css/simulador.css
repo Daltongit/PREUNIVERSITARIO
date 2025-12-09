@@ -225,18 +225,29 @@
     border: 1px solid #e5e7eb;
 }
 
-.examen-sidebar { position: sticky; top: 110px; height: fit-content; }
+.examen-sidebar { 
+    position: sticky; 
+    top: 110px; 
+    height: fit-content;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+}
 
-/* CRONÓMETRO MÁS GRANDE */
+/* CRONÓMETRO CON ANCHO FIJO */
 
 .cronometro-card {
     background: linear-gradient(135deg, #f97373, #ef4444);
-    padding: 28px;
+    padding: 28px 20px;
     border-radius: 18px;
     text-align: center;
-    margin-bottom: 18px;
     box-shadow: 0 10px 24px rgba(239, 68, 68, 0.35);
     color: #ffffff;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
 }
 
 .cronometro-label { 
@@ -246,6 +257,7 @@
     opacity: 0.95; 
     margin-bottom: 10px;
     font-weight: 700;
+    white-space: nowrap;
 }
 
 .cronometro-tiempo { 
@@ -253,6 +265,7 @@
     font-weight: 900; 
     font-family: 'Courier New', Consolas, monospace;
     letter-spacing: 3px;
+    line-height: 1;
 }
 
 /* NAVEGACIÓN */
@@ -263,7 +276,6 @@
     border-radius: 18px;
     box-shadow: 0 8px 22px rgba(15, 23, 42, 0.05);
     border: 1px solid #e5e7eb;
-    margin-bottom: 18px;
 }
 
 .preguntas-navegacion h3 { color: #111827; font-size: 15px; font-weight: 700; margin-bottom: 16px; text-align: center; }
@@ -297,7 +309,7 @@
 
 .pregunta-nav-btn.contestada { border-color: #10b981; color: #047857; }
 
-/* BOTÓN TERMINAR INTENTO (SIEMPRE VISIBLE) */
+/* BOTÓN TERMINAR INTENTO */
 
 .btn-terminar-intento {
     width: 100%;
@@ -430,7 +442,7 @@
 .estadistica h3 { color: #C9A961; font-size: 34px; font-weight: 800; margin-bottom: 6px; }
 .estadistica p { color: #6b7280; font-size: 14px; }
 
-/* REVISIÓN */
+/* REVISIÓN CON RETROALIMENTACIÓN */
 
 .revision-section { text-align: left; }
 .revision-section h3 { color: #111827; font-size: 20px; font-weight: 700; margin: 30px 0 18px; }
@@ -446,12 +458,26 @@
     color: #374151;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
     overflow: hidden;
+    line-height: 1.8;
 }
 
 .revision-pregunta strong { color: #111827; font-size: 15px; }
 
-.respuesta-correcta { color: #10b981; font-weight: 700; display: block; margin-top: 8px; }
-.respuesta-incorrecta { color: #ef4444; font-weight: 700; display: block; margin-top: 8px; }
+.respuesta-correcta { 
+    color: #10b981; 
+    font-weight: 600; 
+    display: block; 
+    margin-top: 8px; 
+    font-size: 14px;
+}
+
+.respuesta-incorrecta { 
+    color: #ef4444; 
+    font-weight: 600; 
+    display: block; 
+    margin-top: 8px; 
+    font-size: 14px;
+}
 
 .revision-pregunta::before {
     content: '';
@@ -549,7 +575,10 @@
         grid-template-rows: auto auto;
         gap: 18px; 
     }
-    .cronometro-card { margin-bottom: 0; }
+    .cronometro-card { 
+        margin-bottom: 0;
+        min-height: 120px;
+    }
     .btn-terminar-intento { grid-column: 1 / -1; }
 }
 
@@ -567,4 +596,5 @@
     .resultados-container { padding: 28px; }
     .puntaje-final { font-size: 48px; }
     .cronometro-tiempo { font-size: 42px; }
+    .cronometro-card { min-height: 110px; }
 }
