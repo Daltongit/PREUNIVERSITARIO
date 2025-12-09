@@ -1,392 +1,392 @@
 [
   {
     "pregunta": "El área total de dos parcelas es 10000 metros cuadrados, se sabe que la parcela grande es el triple de la parcela pequeña.\n¿Cuánto mide cada parcela?",
-    "opciones": [
-      "2000 y 8000",
-      "3000 y 7000",
-      "3500 y 6500",
-      "2500 y 7500"
-    ],
-    "respuesta": "2500 y 7500"
+    "opciones": {
+      "A": "2000 y 8000",
+      "B": "3000 y 7000",
+      "C": "3500 y 6500",
+      "D": "2500 y 7500"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Se tiene 52 cartas y se desea seleccionar 2.\n¿Cuántas formas diferentes hay de seleccionar dos cartas?",
-    "opciones": [
-      "1236",
-      "1263",
-      "1632",
-      "1326"
-    ],
-    "respuesta": "1326"
+    "opciones": {
+      "A": "1236",
+      "B": "1263",
+      "C": "1632",
+      "D": "1326"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "En una empresa la razón entre la cantidad de trabajadores hombres y mujeres es 6 a 4. Si hay 30 trabajadores hombres, ¿cuántos trabajadores hombres y mujeres hay en total?",
-    "opciones": [
-      "50",
-      "60",
-      "20",
-      "30"
-    ],
-    "respuesta": "50"
+    "opciones": {
+      "A": "50",
+      "B": "60",
+      "C": "20",
+      "D": "30"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Considere las letras de la palabra CABLE.\n¿De cuántas formas distintas se pueden agrupar dichas letras para formar nuevas palabras (tengan sentido o no) que empiecen solamente con una vocal?",
-    "opciones": [
-      "44",
-      "46",
-      "48",
-      "42"
-    ],
-    "respuesta": "48"
+    "opciones": {
+      "A": "44",
+      "B": "46",
+      "C": "48",
+      "D": "42"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Juan compró una camisa y un pantalón. En total gastó 75 dólares.\n¿Cuánto cuesta el pantalón si se sabe que su valor es el doble de la camisa?",
-    "opciones": [
-      "75",
-      "100",
-      "50",
-      "25"
-    ],
-    "respuesta": "50"
+    "opciones": {
+      "A": "75",
+      "B": "100",
+      "C": "50",
+      "D": "25"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\np + q + r + s = 25\np = 10\nq = 15\nr = 30\ns = ___",
-    "opciones": [
-      "-30",
-      "50",
-      "30",
-      "60"
-    ],
-    "respuesta": "-30"
+    "opciones": {
+      "A": "-30",
+      "B": "50",
+      "C": "30",
+      "D": "60"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Una torre de 25,05 m., da una sombra de 33,40 m.\n¿Cuál es la dimensión de la sombra de un árbol cuya altura es de 2,25 m?",
-    "opciones": [
-      "3",
-      "4",
-      "6",
-      "5"
-    ],
-    "respuesta": "3"
+    "opciones": {
+      "A": "3",
+      "B": "4",
+      "C": "6",
+      "D": "5"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "En un almacén se venden electrodomésticos nacionales e importados, a razón de 6 a 4.\nSi sabemos que al día se vende 510 electrodomésticos nacionales, ¿cuántos electrodomésticos importados se venden al día?",
-    "opciones": [
-      "120",
-      "85",
-      "510",
-      "340"
-    ],
-    "respuesta": "340"
+    "opciones": {
+      "A": "120",
+      "B": "85",
+      "C": "510",
+      "D": "340"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Si 24 trabajadores tardan 30 días en construir una obra, ¿cuántos días tardarán en construir la misma obra 8 trabajadores?",
-    "opciones": [
-      "95",
-      "90",
-      "78",
-      "80"
-    ],
-    "respuesta": "90"
+    "opciones": {
+      "A": "95",
+      "B": "90",
+      "C": "78",
+      "D": "80"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\na + b + c = 21\na + c = 3\nb = ___",
-    "opciones": [
-      "24",
-      "30",
-      "10",
-      "18"
-    ],
-    "respuesta": "18"
+    "opciones": {
+      "A": "24",
+      "B": "30",
+      "C": "10",
+      "D": "18"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Si un alimento para animales contiene 8 kilos de harina de maíz y 12 kilos de harina de cebada, ¿cuál es la proporción de harina de maíz y cebada?",
-    "opciones": [
-      "3:2",
-      "3:1",
-      "3:6",
-      "2:3"
-    ],
-    "respuesta": "2:3"
+    "opciones": {
+      "A": "3:2",
+      "B": "3:1",
+      "C": "3:6",
+      "D": "2:3"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "En una canasta que contiene naranjas y limones la razón entre naranjas y limones es 3 a 8 de un total de 165 frutas.\n¿Cuántas de cada fruta existen en la canasta?",
-    "opciones": [
-      "65/125",
-      "45/120",
-      "65/165",
-      "45/125"
-    ],
-    "respuesta": "45/120"
+    "opciones": {
+      "A": "65/125",
+      "B": "45/120",
+      "C": "65/165",
+      "D": "45/125"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Un albañil tenía pensado hacer un muro en 15 días, pero tardó 18 días por trabajar 3 horas menos cada día.\n¿Cuántas horas trabajó diariamente?",
-    "opciones": [
-      "15",
-      "16",
-      "20",
-      "18"
-    ],
-    "respuesta": "18"
+    "opciones": {
+      "A": "15",
+      "B": "16",
+      "C": "20",
+      "D": "18"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Se toma cuatro juguetes eléctricos para analizar si funciona o no funcionan.\n¿Cuáles serán el número de posibles resultados?",
-    "opciones": [
-      "20",
-      "8",
-      "12",
-      "16"
-    ],
-    "respuesta": "16"
+    "opciones": {
+      "A": "20",
+      "B": "8",
+      "C": "12",
+      "D": "16"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Si sacar copias de 321 páginas de un libro cuesta 6 dólares, ¿cuántas páginas del libro me alcanza si solo tengo 4 dólares?",
-    "opciones": [
-      "300",
-      "254",
-      "214",
-      "152"
-    ],
-    "respuesta": "214"
+    "opciones": {
+      "A": "300",
+      "B": "254",
+      "C": "214",
+      "D": "152"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Si se necesitan 16 huevos para elaborar 8 barras de pan, ¿cuántas barras de pan se pueden hacer con 24 huevos?",
-    "opciones": [
-      "24",
-      "8",
-      "12",
-      "16"
-    ],
-    "respuesta": "12"
+    "opciones": {
+      "A": "24",
+      "B": "8",
+      "C": "12",
+      "D": "16"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\nx = 10\nx + z = 5\nz = ___",
-    "opciones": [
-      "8",
-      "-5",
-      "3",
-      "5"
-    ],
-    "respuesta": "-5"
+    "opciones": {
+      "A": "8",
+      "B": "-5",
+      "C": "3",
+      "D": "5"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Carlos, Paúl, Luis y Sergio se han presentado a un concurso de oratoria. El concurso entrega 250 dólares al primer lugar y 150 al segundo.\n¿De cuántas formas se pueden repartir los premios de primer y segundo lugar?",
-    "opciones": [
-      "12",
-      "6",
-      "10",
-      "8"
-    ],
-    "respuesta": "12"
+    "opciones": {
+      "A": "12",
+      "B": "6",
+      "C": "10",
+      "D": "8"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Si se dispone de 3 habitaciones, 2 colores para pintarlas y 2 estilos de arreglo.\n¿Cuántas formas posibles pueden tener las habitaciones en color y estilo?",
-    "opciones": [
-      "12",
-      "18",
-      "6",
-      "16"
-    ],
-    "respuesta": "12"
+    "opciones": {
+      "A": "12",
+      "B": "18",
+      "C": "6",
+      "D": "16"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\na . b . c = 21\na . c = 3\nb = ___",
-    "opciones": [
-      "72",
-      "6",
-      "7",
-      "63"
-    ],
-    "respuesta": "7"
+    "opciones": {
+      "A": "72",
+      "B": "6",
+      "C": "7",
+      "D": "63"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\nx + y + z = 24\nx + y = z\nz = ___",
-    "opciones": [
-      "8",
-      "6",
-      "12",
-      "16"
-    ],
-    "respuesta": "12"
+    "opciones": {
+      "A": "8",
+      "B": "6",
+      "C": "12",
+      "D": "16"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\nx = y - z\nx = 2\ny = 5\nz = ___",
-    "opciones": [
-      "3",
-      "10",
-      "12",
-      "3"
-    ],
-    "respuesta": "3"
+    "opciones": {
+      "A": "3",
+      "B": "10",
+      "C": "12",
+      "D": "3"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Un plomero y su ayudante, reciben por la instalación de dos calefones $160, los que se reparten en la razón 5 a 3.\n¿Cuánto dinero recibirá cada uno?",
-    "opciones": [
-      "20/100",
-      "100/60",
-      "120/60",
-      "60/100"
-    ],
-    "respuesta": "100/60"
+    "opciones": {
+      "A": "20/100",
+      "B": "100/60",
+      "C": "120/60",
+      "D": "60/100"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Un barco tiene comida para 33 días, pero al inicio del viaje se suman 4 personas más y por ello la comida solo alcanzará para 30 días.\n¿Cuántas personas hay inicialmente en el barco?",
-    "opciones": [
-      "50",
-      "42",
-      "44",
-      "40"
-    ],
-    "respuesta": "40"
+    "opciones": {
+      "A": "50",
+      "B": "42",
+      "C": "44",
+      "D": "40"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "El arcoíris tiene 7 colores.\n¿De cuántas formas pueden combinarse si los agrupamos de 3 en 3?",
-    "opciones": [
-      "38",
-      "21",
-      "35",
-      "28"
-    ],
-    "respuesta": "35"
+    "opciones": {
+      "A": "38",
+      "B": "21",
+      "C": "35",
+      "D": "28"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Un granjero tiene alimento para sus 10 caballos que le durará 25 días, si vende 5 de sus caballos.\n¿Para cuántos días le alcanzará el alimento?",
-    "opciones": [
-      "75",
-      "30",
-      "55",
-      "50"
-    ],
-    "respuesta": "50"
+    "opciones": {
+      "A": "75",
+      "B": "30",
+      "C": "55",
+      "D": "50"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Se compró un vehículo para la gerencia en $15000 y al cabo de un año se devalúa a 3/4 del precio original, al siguiente año se devalúa a 4/6 del valor de la primera devaluación.\n¿Cuál es el valor final del vehículo?",
-    "opciones": [
-      "9500",
-      "7500",
-      "7900",
-      "11250"
-    ],
-    "respuesta": "7500"
+    "opciones": {
+      "A": "9500",
+      "B": "7500",
+      "C": "7900",
+      "D": "11250"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Un agricultor puede arar un terreno rectangular en 6 días.\n¿Qué tiempo empleará en arar otro terreno rectangular, pero con el doble de área?",
-    "opciones": [
-      "10",
-      "12",
-      "15",
-      "14"
-    ],
-    "respuesta": "12"
+    "opciones": {
+      "A": "10",
+      "B": "12",
+      "C": "15",
+      "D": "14"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "En una urna que contiene 84 canicas, la razón entre canicas negras y verdes es 2 a 5.\n¿Cuántas canicas hay de cada color?",
-    "opciones": [
-      "15/24",
-      "24/60",
-      "60/84",
-      "60/24"
-    ],
-    "respuesta": "24/60"
+    "opciones": {
+      "A": "15/24",
+      "B": "24/60",
+      "C": "60/84",
+      "D": "60/24"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "¿Cuántas formas diferentes hay de seleccionar una mano de 5 cartas que contenga exactamente 2 ases de una baraja de 52 cartas?",
-    "opciones": [
-      "102767",
-      "102677",
-      "103776",
-      "130776"
-    ],
-    "respuesta": "103776"
+    "opciones": {
+      "A": "102767",
+      "B": "102677",
+      "C": "103776",
+      "D": "130776"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "En un salón de clase hay 35 estudiantes se quiere formar grupos de trabajo de 5 integrantes.\n¿Cuántos grupos diferentes se pueden formar?",
-    "opciones": [
-      "322623",
-      "342362",
-      "324236",
-      "324632"
-    ],
-    "respuesta": "324632"
+    "opciones": {
+      "A": "322623",
+      "B": "342362",
+      "C": "324236",
+      "D": "324632"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Dos números están en la razón de 3 a 8. Si su diferencia es 90, ¿cuál es la suma?",
-    "opciones": [
-      "198",
-      "54",
-      "72",
-      "275"
-    ],
-    "respuesta": "198"
+    "opciones": {
+      "A": "198",
+      "B": "54",
+      "C": "72",
+      "D": "275"
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\nx * y = z * w\nx = y\nz * w = 81\ny = ___",
-    "opciones": [
-      "16",
-      "3",
-      "9",
-      "12"
-    ],
-    "respuesta": "9"
+    "opciones": {
+      "A": "16",
+      "B": "3",
+      "C": "9",
+      "D": "12"
+    },
+    "respuesta_correcta": "C"
   },
   {
     "pregunta": "Escoja el número que reemplaza al espacio en blanco.\n4(x + 8) = y\nx = 2\ny = ___",
-    "opciones": [
-      "4",
-      "80",
-      "8",
-      "40"
-    ],
-    "respuesta": "40"
+    "opciones": {
+      "A": "4",
+      "B": "80",
+      "C": "8",
+      "D": "40"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "La suma de dos cantidades es 750 y están en razón de 8 a 7.\n¿Cuál es el número menor?",
-    "opciones": [
-      "150",
-      "250",
-      "450",
-      "350"
-    ],
-    "respuesta": "350"
+    "opciones": {
+      "A": "150",
+      "B": "250",
+      "C": "450",
+      "D": "350"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Un chef va a preparar una ensalada de verduras con pepino, zanahoria, cebolla y brócoli.\n¿De cuántas formas se puede preparar la ensalada usando solo 2 ingredientes?",
-    "opciones": [
-      "9",
-      "4",
-      "8",
-      "6"
-    ],
-    "respuesta": "6"
+    "opciones": {
+      "A": "9",
+      "B": "4",
+      "C": "8",
+      "D": "6"
+    },
+    "respuesta_correcta": "D"
   },
   {
     "pregunta": "Un estudiante pintó las caras de un cubo en 40 minutos. Si ahora está pintando otro cubo que tiene el triple de trabajo/superficie que el anterior.\n¿A qué hora terminará si empezó a las 9:40 a.m?",
-    "opciones": [
-      "11:40 a.m.",
-      "1:40 p.m.",
-      "12:40 p.m.",
-      "2:40 p.m."
-    ],
-    "respuesta": "11:40 a.m."
+    "opciones": {
+      "A": "11:40 a.m.",
+      "B": "1:40 p.m.",
+      "C": "12:40 p.m.",
+      "D": "2:40 p.m."
+    },
+    "respuesta_correcta": "A"
   },
   {
     "pregunta": "Un tanque de agua tarda en llenarse 6 horas si usamos 3 mangueras. Si retiramos una manguera, ¿cuánto tardará en llenarse?",
-    "opciones": [
-      "10",
-      "9",
-      "8",
-      "12"
-    ],
-    "respuesta": "9"
+    "opciones": {
+      "A": "10",
+      "B": "9",
+      "C": "8",
+      "D": "12"
+    },
+    "respuesta_correcta": "B"
   },
   {
     "pregunta": "Isaac trabaja los domingos cortando el césped a sus vecinos. Si se sabe que trabaja todos los domingos las mismas horas y que por cada 5 días cobra 150 dólares.\n¿Cuánto cobra Isaac por 15 días de trabajo?",
-    "opciones": [
-      "550",
-      "375",
-      "450",
-      "300"
-    ],
-    "respuesta": "450"
+    "opciones": {
+      "A": "550",
+      "B": "375",
+      "C": "450",
+      "D": "300"
+    },
+    "respuesta_correcta": "C"
   }
 ]
