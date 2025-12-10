@@ -15,14 +15,7 @@
         "ciudad": "Tulcán",
         "universidades_acceso": ["UPEC"]
     },
-    {
-        "usuario": "david",
-        "contrasena": "david",
-        "nombre": "David",
-        "rol": "estudiante",
-        "ciudad": "Tulcán",
-        "universidades_acceso": ["UPEC"]
-    },
+
     {
         "usuario": "yuliana_bastidas",
         "contrasena": "yuliana_bastidas",
