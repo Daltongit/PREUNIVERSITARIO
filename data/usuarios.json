@@ -8,35 +8,51 @@
         "universidades_acceso": ["EPN", "UCE", "ESPE", "UNACH", "UTC", "UTN", "YACHAY"]
     },
     {
-        "usuario": "juan.perez",
-        "contrasena": "12345",
-        "nombre": "Juan Pérez",
+        "usuario": "jennifer_tulcan",
+        "contrasena": "jennifer_tulcan",
+        "nombre": "Jennifer Tulcán",
         "rol": "estudiante",
         "ciudad": "Tulcán",
-        "universidades_acceso": ["UPEC", "UTN"]
+        "universidades_acceso": ["UPEC"]
     },
     {
-        "usuario": "maria.lopez",
-        "contrasena": "54321",
-        "nombre": "María López",
-        "rol": "estudiante",
-        "ciudad": "Ibarra",
-        "universidades_acceso": ["UPEC", "EPN"]
-    },
-    {
-        "usuario": "carlos.garcia",
-        "contrasena": "password",
-        "nombre": "Carlos García",
+        "usuario": "yuliana_bastidas",
+        "contrasena": "yuliana_bastidas",
+        "nombre": "Yuliana Bastidas",
         "rol": "estudiante",
         "ciudad": "Tulcán",
-        "universidades_acceso": ["EPN", "UCE", "ESPE"]
+        "universidades_acceso": ["UPEC"]
     },
     {
-        "usuario": "ana.martinez",
-        "contrasena": "ana123",
-        "nombre": "Ana Martínez",
+        "usuario": "mishell_mayanquer",
+        "contrasena": "mishell_mayanquer",
+        "nombre": "Mishell Mayanquer",
         "rol": "estudiante",
-        "ciudad": "Ibarra",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["UPEC"]
+    },
+    {
+        "usuario": "camilo_chalparizan",
+        "contrasena": "camilo_chalparizan",
+        "nombre": "Camilo Chalparizán",
+        "rol": "estudiante",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["UPEC"]
+    },
+    {
+        "usuario": "zuly_ortega",
+        "contrasena": "zuly_ortega",
+        "nombre": "Zuly Ortega",
+        "rol": "estudiante",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["UPEC"]
+    },
+    {
+        "usuario": "gabriela_villarreal",
+        "contrasena": "gabriela_villarreal",
+        "nombre": "Gabriela Villareal",
+        "rol": "estudiante",
+        "ciudad": "Tulcán",
         "universidades_acceso": ["UPEC"]
     }
 ]
