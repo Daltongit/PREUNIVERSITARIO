@@ -1,74 +1,84 @@
 <!DOCTYPE html>
 <html lang="es">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sparta Academy - Resultados</title>
+    <title>Reporte de Intentos - Sparta Academy</title>
     <link rel="stylesheet" href="css/styles.css">
-    <link rel="stylesheet" href="css/admin.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <link rel="stylesheet" href="css/admin-resultados.css">
 </head>
-
 <body>
     <header>
-        <div class="header-content">
-            <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
-            <div class="user-info">
-                <span id="userName"></span>
-                <button id="btnVolver" class="btn-header">Volver al Inicio</button>
-                <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+        <div class="header-content" id="headerContent">
+            <a href="index.html" class="brand-container">
+                <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
+                <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
+            </a>
+
+            <div class="header-right">
+                <div class="user-info" id="userInfo">
+                    <span class="student-label">Administrador:</span>
+                    <span id="userName" class="student-name"></span>
+                    <button id="btnVolver" class="btn-header">Volver al Inicio</button>
+                    <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+                </div>
+
+                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú">
+                    <span class="hamburger-line"></span>
+                </button>
             </div>
         </div>
     </header>
 
-    <main>
-        <div class="admin-container">
-            <h1>Reporte de Intentos de Aspirantes</h1>
+    <main class="admin-container">
+        <h1 class="admin-title">📊 Reporte de Intentos de Aspirantes</h1>
 
-            <div class="filters-container">
-                <div class="filter-group">
-                    <label for="filterCiudad">🏙️ Ciudad:</label>
-                    <select id="filterCiudad">
-                        <option value="TODAS">Todas</option>
-                        <option value="Tulcán">Tulcán</option>
-                        <option value="Ibarra">Ibarra</option>
-                    </select>
-                </div>
-
-                <div class="filter-group">
-                    <label for="filterUniversidad">📚 Universidad:</label>
-                    <select id="filterUniversidad">
-                        <option value="TODAS">Todas las Universidades</option>
-                        <option value="EPN">EPN - Politécnica Nacional</option>
-                        <option value="UCE">UCE - Universidad Central del Ecuador</option>
-                        <option value="ESPE">ESPE - Universidad de las Fuerzas Armadas</option>
-                        <option value="UNACH">UNACH - Universidad Nacional de Chimborazo</option>
-                        <option value="UPEC">UPEC - Universidad Politécnica Estatal del Carchi</option>
-                        <option value="UTA">UTA - Universidad Técnica de Ambato</option>
-                        <option value="UTC">UTC - Universidad Técnica de Cotopaxi</option>
-                        <option value="UTN">UTN - Universidad Técnica del Norte</option>
-                        <option value="YACHAY">YACHAY - Universidad Yachay Tech</option>
-                    </select>
-                </div>
-
-                <div class="filter-group search-group">
-                    <label for="searchNombre">🔍 Buscar Nombre:</label>
-                    <input type="text" id="searchNombre" placeholder="Escribe un nombre...">
-                </div>
-
-                <button id="btnPDFGeneral" class="btn-pdf">📄 PDF General</button>
+        <!-- FILTROS -->
+        <section class="filtros-section">
+            <div class="filtro-item">
+                <label>🎓 Universidad:</label>
+                <select id="filtroUniversidad" class="filtro-select">
+                    <option value="TODAS">Todas las Universidades</option>
+                    <option value="EPN">EPN</option>
+                    <option value="UCE">UCE</option>
+                    <option value="ESPE">ESPE</option>
+                    <option value="UNACH">UNACH</option>
+                    <option value="UPEC">UPEC</option>
+                    <option value="UTA">UTA</option>
+                    <option value="UTC">UTC</option>
+                    <option value="UTN">UTN</option>
+                    <option value="YACHAY">YACHAY</option>
+                </select>
             </div>
 
-            <div id="resultadosContainer" class="resultados-container"></div>
-        </div>
+            <div class="filtro-item">
+                <label>📚 Materia:</label>
+                <select id="filtroMateria" class="filtro-select">
+                    <option value="TODAS">Todas las Materias</option>
+                </select>
+            </div>
+
+            <div class="filtro-item">
+                <label>🔍 Buscar Nombre:</label>
+                <input type="text" id="buscarNombre" class="filtro-input" placeholder="Escribe un nombre...">
+            </div>
+
+            <button id="btnPdfGeneral" class="btn-pdf">📄 PDF General</button>
+        </section>
+
+        <!-- TABLA DE RESULTADOS -->
+        <section class="tabla-section">
+            <div id="resultadosContainer" class="resultados-wrapper">
+                <div class="mensaje-cargando">
+                    <div class="spinner"></div>
+                    <p>Cargando datos...</p>
+                </div>
+            </div>
+        </section>
     </main>
 
-    <!-- CDN de Supabase -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/supabase-client.js"></script>
-    <script src="js/admin.js"></script>
+    <script src="js/admin-resultados.js"></script>
 </body>
-
 </html>
