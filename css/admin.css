@@ -1,4 +1,4 @@
-/* ==================== VARIABLES ==================== */
+/* ==================== ADMIN RESULTADOS - SPARTA ACADEMY ==================== */
 
 :root {
     --sparta-gold: #C9A961;
@@ -15,12 +15,25 @@
     --shadow-lg: 0 12px 32px rgba(0, 0, 0, 0.12);
 }
 
-/* ==================== BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #e8ecf0 100%);
+    min-height: 100vh;
+}
+
+/* ==================== CONTENEDOR PRINCIPAL ==================== */
 
 .admin-container {
     max-width: 1600px;
     margin: 0 auto;
     padding: 40px 24px;
+    min-height: calc(100vh - 80px);
 }
 
 .admin-title {
@@ -33,7 +46,7 @@
     text-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
 }
 
-/* ==================== FILTROS ==================== */
+/* ==================== SECCIÓN DE FILTROS ==================== */
 
 .filtros-section {
     background: #ffffff;
@@ -117,7 +130,13 @@
     transform: translateY(-1px);
 }
 
-/* ==================== TABLA ==================== */
+.btn-pdf:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    transform: none;
+}
+
+/* ==================== TABLA DE RESULTADOS ==================== */
 
 .tabla-section {
     background: #ffffff;
@@ -180,6 +199,7 @@
     padding: 16px;
     color: var(--text-gray);
     font-weight: 500;
+    vertical-align: middle;
 }
 
 .tabla-resultados td:first-child {
@@ -187,7 +207,7 @@
     color: var(--text-dark);
 }
 
-/* BADGES */
+/* ==================== BADGES ==================== */
 
 .badge {
     display: inline-block;
@@ -234,7 +254,7 @@
     font-size: 13px;
 }
 
-/* BOTÓN PDF INDIVIDUAL */
+/* ==================== BOTÓN PDF INDIVIDUAL ==================== */
 
 .btn-pdf-individual {
     padding: 8px 16px;
@@ -319,9 +339,7 @@
     .admin-container {
         padding: 32px 20px;
     }
-}
-
-@media (max-width: 1024px) {
+    
     .filtros-section {
         grid-template-columns: repeat(2, 1fr);
     }
