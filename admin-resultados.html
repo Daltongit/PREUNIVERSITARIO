@@ -9,23 +9,19 @@
 </head>
 <body>
     <header>
-        <div class="header-content" id="headerContent">
+        <div class="header-content">
             <a href="index.html" class="brand-container">
                 <img src="assets/logos/sparta-logo.png" alt="Sparta Academy" class="header-logo">
                 <span class="brand-text">PREUNIVERSITARIO SPARTA</span>
             </a>
 
             <div class="header-right">
-                <div class="user-info" id="userInfo">
+                <div class="user-info">
                     <span class="student-label">Administrador:</span>
                     <span id="userName" class="student-name"></span>
-                    <button id="btnVolver" class="btn-header">Volver al Inicio</button>
-                    <button id="btnLogout" class="btn-header">Cerrar Sesión</button>
+                    <button id="btnVolver" class="btn-header btn-outline">Volver al Inicio</button>
+                    <button id="btnLogout" class="btn-header btn-danger">Cerrar Sesión</button>
                 </div>
-
-                <button class="hamburger-btn" id="hamburgerBtn" aria-label="Menú">
-                    <span class="hamburger-line"></span>
-                </button>
             </div>
         </div>
     </header>
@@ -63,7 +59,9 @@
                 <input type="text" id="buscarNombre" class="filtro-input" placeholder="Escribe un nombre...">
             </div>
 
-            <button id="btnPdfGeneral" class="btn-pdf">📄 PDF General</button>
+            <button id="btnPdfGeneral" class="btn-pdf">
+                📄 PDF General
+            </button>
         </section>
 
         <!-- TABLA DE RESULTADOS -->
@@ -77,10 +75,9 @@
         </section>
     </main>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
     <script src="js/supabase-client.js"></script>
-    <script src="js/admin.js"></script>
+    <script src="js/admin-resultados.js"></script>
 </body>
 </html>
-
-
