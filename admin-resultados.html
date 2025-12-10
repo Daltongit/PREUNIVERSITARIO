@@ -29,7 +29,6 @@
     <main class="admin-container">
         <h1 class="admin-title">📊 Reporte de Intentos de Aspirantes</h1>
 
-        <!-- FILTROS -->
         <section class="filtros-section">
             <div class="filtro-item">
                 <label>🎓 Universidad:</label>
@@ -59,12 +58,9 @@
                 <input type="text" id="buscarNombre" class="filtro-input" placeholder="Escribe un nombre...">
             </div>
 
-            <button id="btnPdfGeneral" class="btn-pdf">
-                📄 PDF General
-            </button>
+            <button id="btnPdfGeneral" class="btn-pdf">📄 PDF General</button>
         </section>
 
-        <!-- TABLA DE RESULTADOS -->
         <section class="tabla-section">
             <div id="resultadosContainer" class="resultados-wrapper">
                 <div class="mensaje-cargando">
@@ -78,6 +74,7 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.31/jspdf.plugin.autotable.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
     <script src="js/supabase-client.js"></script>
     <script src="js/admin.js"></script>
 </body>
