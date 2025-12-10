@@ -1,16 +1,6 @@
 // ==================== CONFIGURACIÓN ==================== 
 
-const UNIVERSIDADES_MATERIAS = {
-    'EPN': [],
-    'UCE': [],
-    'ESPE': [],
-    'UNACH': [],
-    'UPEC': [],
-    'UTA': [],
-    'UTC': [],
-    'UTN': [],
-    'YACHAY': []
-};
+const UNIVERSIDADES = ['EPN', 'UCE', 'ESPE', 'UNACH', 'UPEC', 'UTA', 'UTC', 'UTN', 'YACHAY'];
 
 let todosLosEstudiantes = [];
 let todasLasMaterias = [];
@@ -22,8 +12,12 @@ let intentosPorEstudiante = new Map();
 document.addEventListener('DOMContentLoaded', async () => {
     verificarAutenticacion();
     configurarHeader();
-    await cargarDatos();
-    configurarEventos();
+    
+    // Esperar a que auto-materias.js termine
+    setTimeout(async () => {
+        await cargarDatos();
+        configurarEventos();
+    }, 1000);
 });
 
 // ==================== AUTENTICACIÓN ====================
@@ -78,32 +72,20 @@ async function cargarDatos() {
             .eq('activo', true)
             .order('nombre', { ascending: true });
 
-        if (errorMaterias) {
-            console.error('Error cargando materias:', errorMaterias);
-            todasLasMaterias = [];
-        } else {
-            todasLasMaterias = materias || [];
+        if (!errorMaterias && materias) {
+            todasLasMaterias = materias;
             console.log(`✅ ${todasLasMaterias.length} materias cargadas desde Supabase`);
             
-            // Limpiar el objeto de materias por universidad
-            Object.keys(UNIVERSIDADES_MATERIAS).forEach(key => {
-                UNIVERSIDADES_MATERIAS[key] = [];
+            // Organizar por universidad
+            window.UNIVERSIDADES_MATERIAS = {};
+            UNIVERSIDADES.forEach(uni => {
+                window.UNIVERSIDADES_MATERIAS[uni] = materias
+                    .filter(m => m.universidad_id === uni)
+                    .map(m => m.nombre)
+                    .sort();
             });
             
-            // Organizar materias por universidad
-            todasLasMaterias.forEach(materia => {
-                const uniId = materia.universidad_id;
-                if (uniId && UNIVERSIDADES_MATERIAS[uniId]) {
-                    UNIVERSIDADES_MATERIAS[uniId].push({
-                        id: materia.id,
-                        nombre: materia.nombre,
-                        codigo: materia.codigo
-                    });
-                }
-            });
-            
-            // Debug: mostrar materias por universidad
-            console.log('Materias por universidad:', UNIVERSIDADES_MATERIAS);
+            console.log('📚 Materias por universidad:', window.UNIVERSIDADES_MATERIAS);
         }
 
         // 3. Cargar intentos desde Supabase
@@ -120,11 +102,8 @@ async function cargarDatos() {
             .eq('completado', true)
             .order('fecha_inicio', { ascending: false });
 
-        if (errorIntentos) {
-            console.error('Error cargando intentos:', errorIntentos);
-            todosLosIntentos = [];
-        } else {
-            todosLosIntentos = (intentos || []).map(intento => {
+        if (!errorIntentos && intentos) {
+            todosLosIntentos = intentos.map(intento => {
                 const estudiante = todosLosEstudiantes.find(e => e.usuario === intento.usuario);
                 
                 return {
@@ -184,28 +163,26 @@ function actualizarMateriasDisponibles() {
     
     selectMateria.innerHTML = '<option value="TODAS">Todas las Materias</option>';
     
+    if (!window.UNIVERSIDADES_MATERIAS) return;
+    
     if (universidadSeleccionada === 'TODAS') {
-        const materiasUnicas = new Set();
-        todasLasMaterias.forEach(m => {
-            if (m.nombre) materiasUnicas.add(m.nombre);
+        const todasLasMaterias = new Set();
+        Object.values(window.UNIVERSIDADES_MATERIAS).forEach(materias => {
+            materias.forEach(m => todasLasMaterias.add(m));
         });
         
-        Array.from(materiasUnicas).sort().forEach(nombre => {
+        Array.from(todasLasMaterias).sort().forEach(nombre => {
             const option = document.createElement('option');
             option.value = nombre;
             option.textContent = nombre;
             selectMateria.appendChild(option);
         });
-        
-        console.log(`Materias en selector (TODAS): ${materiasUnicas.size}`);
     } else {
-        const materiasUniversidad = UNIVERSIDADES_MATERIAS[universidadSeleccionada] || [];
-        console.log(`Materias en ${universidadSeleccionada}:`, materiasUniversidad);
-        
-        materiasUniversidad.forEach(materia => {
+        const materiasUniversidad = window.UNIVERSIDADES_MATERIAS[universidadSeleccionada] || [];
+        materiasUniversidad.forEach(nombre => {
             const option = document.createElement('option');
-            option.value = materia.nombre;
-            option.textContent = materia.nombre;
+            option.value = nombre;
+            option.textContent = nombre;
             selectMateria.appendChild(option);
         });
     }
@@ -383,7 +360,7 @@ function mostrarCargando() {
     document.getElementById('resultadosContainer').innerHTML = `
         <div class="mensaje-cargando">
             <div class="spinner"></div>
-            <p>Cargando datos desde Supabase...</p>
+            <p>Cargando datos...</p>
         </div>
     `;
 }
@@ -398,9 +375,51 @@ function mostrarError(mensaje) {
     `;
 }
 
-// ==================== GENERACIÓN DE PDFs CON GRÁFICOS ====================
+// ==================== GENERACIÓN DE PDFs ====================
 
-function generarPDFGeneral() {
+async function crearGraficoBarras(datos, etiquetas, colores) {
+    const canvas = document.createElement('canvas');
+    canvas.width = 400;
+    canvas.height = 200;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#ffffff';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    
+    const maxValor = Math.max(...datos, 1);
+    const barWidth = canvas.width / (datos.length * 2);
+    const maxHeight = canvas.height - 60;
+    
+    datos.forEach((valor, index) => {
+        const altura = (valor / maxValor) * maxHeight;
+        const x = (index * 2 + 0.5) * barWidth;
+        const y = canvas.height - altura - 40;
+        
+        const gradient = ctx.createLinearGradient(x, y, x, y + altura);
+        gradient.addColorStop(0, colores[index][0]);
+        gradient.addColorStop(1, colores[index][1]);
+        
+        ctx.fillStyle = gradient;
+        ctx.fillRect(x, y, barWidth, altura);
+        
+        ctx.strokeStyle = '#C9A961';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(x, y, barWidth, altura);
+        
+        ctx.fillStyle = '#111827';
+        ctx.font = 'bold 16px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText(valor.toString(), x + barWidth / 2, y - 5);
+        
+        ctx.fillStyle = '#374151';
+        ctx.font = '12px Arial';
+        ctx.fillText(etiquetas[index], x + barWidth / 2, canvas.height - 20);
+    });
+    
+    return canvas.toDataURL('image/png');
+}
+
+async function generarPDFGeneral() {
     try {
         const { jsPDF } = window.jspdf;
         if (!jsPDF) {
@@ -426,44 +445,34 @@ function generarPDFGeneral() {
             return estudiantesFiltrados.some(e => e.usuario === int.usuario);
         });
 
-        // ========== PÁGINA 1: PORTADA Y ESTADÍSTICAS ==========
-        
-        // Portada con diseño mejorado
-        doc.setFillColor(201, 169, 97);
-        doc.rect(0, 0, 210, 100, 'F');
-        
-        // Patrón decorativo
-        doc.setDrawColor(184, 149, 79);
-        doc.setLineWidth(0.5);
-        for (let i = 0; i < 10; i++) {
-            doc.line(0, i * 10, 210, i * 10);
+        // PORTADA
+        for (let i = 0; i < 100; i++) {
+            doc.setFillColor(201 - i, 169 - i, 97 - i);
+            doc.rect(0, i, 210, 1, 'F');
         }
         
+        doc.setFillColor(201, 169, 97);
+        doc.circle(105, 40, 15, 'F');
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(36);
+        doc.setFontSize(20);
         doc.setFont('helvetica', 'bold');
-        doc.text('SPARTA ACADEMY', 105, 40, { align: 'center' });
+        doc.text('S', 105, 45, { align: 'center' });
         
-        doc.setFontSize(18);
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(38);
+        doc.setFont('helvetica', 'bold');
+        doc.text('SPARTA ACADEMY', 105, 70, { align: 'center' });
+        
+        doc.setFontSize(20);
         doc.setFont('helvetica', 'normal');
-        doc.text('Reporte General de Aspirantes', 105, 55, { align: 'center' });
+        doc.text('Reporte General de Aspirantes', 105, 85, { align: 'center' });
         
-        doc.setFontSize(12);
-        doc.text(`${new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}`, 105, 70, { align: 'center' });
+        doc.setFontSize(14);
+        const fechaHoy = new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+        doc.text(fechaHoy, 105, 95, { align: 'center' });
         
-        // Estadísticas principales
+        // ESTADÍSTICAS
         let yPos = 115;
-        
-        doc.setFillColor(249, 250, 251);
-        doc.roundedRect(15, yPos, 180, 80, 3, 3, 'F');
-        doc.setDrawColor(201, 169, 97);
-        doc.setLineWidth(2);
-        doc.roundedRect(15, yPos, 180, 80, 3, 3);
-        
-        doc.setTextColor(17, 24, 39);
-        doc.setFontSize(16);
-        doc.setFont('helvetica', 'bold');
-        doc.text('📊 ESTADÍSTICAS GENERALES', 105, yPos + 12, { align: 'center' });
         
         const totalEstudiantes = estudiantesFiltrados.length;
         const totalIntentos = intentosFiltrados.length;
@@ -472,71 +481,66 @@ function generarPDFGeneral() {
             : '0.00';
         const estudiantesConIntentos = new Set(intentosFiltrados.map(i => i.usuario)).size;
         
-        // Tarjetas de estadísticas
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(15, yPos, 180, 70, 5, 5, 'F');
+        doc.setDrawColor(201, 169, 97);
+        doc.setLineWidth(3);
+        doc.roundedRect(15, yPos, 180, 70, 5, 5);
+        
+        doc.setTextColor(17, 24, 39);
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'bold');
+        doc.text('📊 ESTADÍSTICAS GENERALES', 105, yPos + 12, { align: 'center' });
+        
+        doc.setDrawColor(201, 169, 97);
+        doc.setLineWidth(1);
+        doc.line(25, yPos + 18, 185, yPos + 18);
+        
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
+        doc.setTextColor(107, 114, 128);
         
-        doc.text('Total Estudiantes', 25, yPos + 30);
-        doc.setFontSize(24);
+        doc.text('Total Estudiantes', 35, yPos + 30);
+        doc.setFontSize(28);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(201, 169, 97);
-        doc.text(totalEstudiantes.toString(), 25, yPos + 42);
+        doc.text(totalEstudiantes.toString(), 35, yPos + 45);
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Total Intentos', 75, yPos + 30);
-        doc.setFontSize(24);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Total Intentos', 115, yPos + 30);
+        doc.setFontSize(28);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(79, 70, 229);
-        doc.text(totalIntentos.toString(), 75, yPos + 42);
+        doc.text(totalIntentos.toString(), 115, yPos + 45);
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Promedio', 130, yPos + 30);
-        doc.setFontSize(24);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Promedio', 35, yPos + 55);
+        doc.setFontSize(22);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(16, 185, 129);
-        doc.text(promedioGeneral, 130, yPos + 42);
+        doc.text(promedioGeneral, 35, yPos + 67);
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Con Intentos', 25, yPos + 58);
-        doc.setFontSize(20);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Con Intentos', 115, yPos + 55);
+        doc.setFontSize(22);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(239, 68, 68);
-        doc.text(estudiantesConIntentos.toString(), 25, yPos + 70);
+        doc.text(estudiantesConIntentos.toString(), 115, yPos + 67);
         
-        doc.setFontSize(11);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Universidad', 75, yPos + 58);
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(30, 64, 175);
-        doc.text(universidadFiltro, 75, yPos + 70);
+        // GRÁFICO
+        yPos = 200;
         
-        doc.setFontSize(11);
-        doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Materia', 130, yPos + 58);
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(180, 83, 9);
-        doc.text(materiaFiltro.length > 15 ? materiaFiltro.substring(0, 12) + '...' : materiaFiltro, 130, yPos + 70);
-        
-        // ========== GRÁFICO DE BARRAS (simulado con rectángulos) ==========
-        yPos = 210;
-        
-        doc.setFontSize(14);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(17, 24, 39);
         doc.text('📈 Distribución de Notas', 20, yPos);
         
-        // Calcular distribución
         const rangosNotas = { '0-3': 0, '4-6': 0, '7-10': 0 };
         intentosFiltrados.forEach(int => {
             const nota = int.nota;
@@ -545,65 +549,46 @@ function generarPDFGeneral() {
             else rangosNotas['7-10']++;
         });
         
-        const maxAltura = 40;
-        const maxValor = Math.max(...Object.values(rangosNotas), 1);
+        const graficoImg = await crearGraficoBarras(
+            Object.values(rangosNotas),
+            Object.keys(rangosNotas),
+            [
+                ['#ef4444', '#dc2626'],
+                ['#fbbf24', '#f59e0b'],
+                ['#10b981', '#059669']
+            ]
+        );
         
-        yPos += 10;
-        const barWidth = 40;
-        const barSpacing = 20;
-        let xPos = 30;
-        
-        Object.entries(rangosNotas).forEach(([rango, valor], index) => {
-            const altura = (valor / maxValor) * maxAltura;
-            const colors = [[239, 68, 68], [251, 191, 36], [16, 185, 129]];
-            
-            doc.setFillColor(...colors[index]);
-            doc.rect(xPos, yPos + maxAltura - altura, barWidth, altura, 'F');
-            
-            doc.setDrawColor(201, 169, 97);
-            doc.setLineWidth(1);
-            doc.rect(xPos, yPos + maxAltura - altura, barWidth, altura);
-            
-            doc.setFontSize(10);
-            doc.setFont('helvetica', 'bold');
-            doc.setTextColor(0, 0, 0);
-            doc.text(rango, xPos + barWidth / 2, yPos + maxAltura + 8, { align: 'center' });
-            
-            doc.setFontSize(12);
-            doc.setTextColor(255, 255, 255);
-            if (valor > 0) {
-                doc.text(valor.toString(), xPos + barWidth / 2, yPos + maxAltura - altura / 2 + 2, { align: 'center' });
-            }
-            
-            xPos += barWidth + barSpacing;
-        });
+        doc.addImage(graficoImg, 'PNG', 15, yPos + 5, 180, 70);
         
         doc.addPage();
         
-        // ========== DETALLES POR ESTUDIANTE ==========
+        // DETALLES
         yPos = 20;
         
-        doc.setFontSize(16);
+        doc.setFontSize(18);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
         doc.text('👥 Detalles por Estudiante', 20, yPos);
-        yPos += 10;
+        yPos += 12;
 
         estudiantesFiltrados.forEach((estudiante, index) => {
-            if (yPos > 260) {
+            if (yPos > 255) {
                 doc.addPage();
                 yPos = 20;
             }
 
-            // Encabezado del estudiante
+            doc.setFillColor(240, 240, 240);
+            doc.roundedRect(16, yPos + 1, 180, 12, 2, 2, 'F');
+            
             doc.setFillColor(201, 169, 97);
-            doc.roundedRect(15, yPos, 180, 10, 2, 2, 'F');
+            doc.roundedRect(15, yPos, 180, 12, 2, 2, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(12);
+            doc.setFontSize(13);
             doc.setFont('helvetica', 'bold');
-            doc.text(`${index + 1}. ${estudiante.nombre}`, 20, yPos + 7);
+            doc.text(`${index + 1}. ${estudiante.nombre}`, 20, yPos + 8);
 
-            yPos += 14;
+            yPos += 16;
 
             const universidadesParaMostrar = universidadFiltro === 'TODAS' 
                 ? estudiante.universidades_acceso 
@@ -617,7 +602,7 @@ function generarPDFGeneral() {
                 );
 
                 doc.setTextColor(0, 0, 0);
-                doc.setFontSize(10);
+                doc.setFontSize(11);
                 doc.setFont('helvetica', 'bold');
                 doc.text(`🎓 ${uni}`, 20, yPos);
                 yPos += 6;
@@ -644,16 +629,20 @@ function generarPDFGeneral() {
                 yPos += 3;
             });
 
-            yPos += 5;
+            yPos += 8;
         });
 
-        // Footer en todas las páginas
+        // FOOTER
         const pageCount = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
+            doc.setDrawColor(201, 169, 97);
+            doc.setLineWidth(0.5);
+            doc.line(20, 285, 190, 285);
             doc.setFontSize(8);
             doc.setTextColor(156, 163, 175);
-            doc.text(`Página ${i} de ${pageCount} | Sparta Academy © ${new Date().getFullYear()}`, 105, 290, { align: 'center' });
+            doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+            doc.text(`Sparta Academy © ${new Date().getFullYear()}`, 105, 294, { align: 'center' });
         }
 
         doc.save(`Reporte-General-Sparta-${new Date().getTime()}.pdf`);
@@ -664,7 +653,7 @@ function generarPDFGeneral() {
     }
 }
 
-function generarPDFIndividual(usuarioId) {
+async function generarPDFIndividual(usuarioId) {
     try {
         const estudiante = todosLosEstudiantes.find(e => e.usuario === usuarioId);
         if (!estudiante) {
@@ -675,44 +664,48 @@ function generarPDFIndividual(usuarioId) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
-        // ========== PORTADA ==========
+        // PORTADA
+        for (let i = 0; i < 80; i++) {
+            doc.setFillColor(201 - i, 169 - i, 97 - i);
+            doc.rect(0, i, 210, 1, 'F');
+        }
+        
         doc.setFillColor(201, 169, 97);
-        doc.rect(0, 0, 210, 80, 'F');
+        doc.circle(105, 35, 12, 'F');
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('S', 105, 39, { align: 'center' });
         
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(32);
+        doc.setFontSize(34);
         doc.setFont('helvetica', 'bold');
-        doc.text('SPARTA ACADEMY', 105, 30, { align: 'center' });
+        doc.text('SPARTA ACADEMY', 105, 60, { align: 'center' });
         
-        doc.setFontSize(16);
+        doc.setFontSize(18);
         doc.setFont('helvetica', 'normal');
-        doc.text('Reporte Individual de Aspirante', 105, 45, { align: 'center' });
-        
-        doc.setFontSize(12);
-        doc.text(new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }), 105, 60, { align: 'center' });
+        doc.text('Reporte Individual de Aspirante', 105, 73, { align: 'center' });
 
         let yPos = 95;
 
-        // Info del estudiante
-        doc.setFillColor(249, 250, 251);
-        doc.roundedRect(15, yPos, 180, 30, 3, 3, 'F');
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(15, yPos, 180, 35, 5, 5, 'F');
         doc.setDrawColor(201, 169, 97);
-        doc.setLineWidth(2);
-        doc.roundedRect(15, yPos, 180, 30, 3, 3);
+        doc.setLineWidth(3);
+        doc.roundedRect(15, yPos, 180, 35, 5, 5);
         
         doc.setTextColor(17, 24, 39);
-        doc.setFontSize(20);
+        doc.setFontSize(22);
         doc.setFont('helvetica', 'bold');
-        doc.text(estudiante.nombre, 105, yPos + 12, { align: 'center' });
+        doc.text(estudiante.nombre, 105, yPos + 15, { align: 'center' });
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text(`Usuario: ${estudiante.usuario}`, 105, yPos + 22, { align: 'center' });
+        doc.setTextColor(107, 114, 128);
+        doc.text(`Usuario: ${estudiante.usuario} | Fecha: ${new Date().toLocaleDateString('es-ES')}`, 105, yPos + 27, { align: 'center' });
 
-        yPos += 40;
+        yPos += 45;
 
-        // Estadísticas personales
         const intentosEstudiante = intentosPorEstudiante.get(estudiante.usuario) || [];
         const totalIntentosEst = intentosEstudiante.length;
         const promedioEst = totalIntentosEst > 0
@@ -722,63 +715,73 @@ function generarPDFIndividual(usuarioId) {
             ? Math.max(...intentosEstudiante.map(i => i.nota)).toFixed(1)
             : '0.0';
 
-        doc.setFillColor(249, 250, 251);
-        doc.roundedRect(15, yPos, 180, 50, 3, 3, 'F');
+        doc.setFillColor(255, 255, 255);
+        doc.roundedRect(15, yPos, 180, 50, 5, 5, 'F');
         doc.setDrawColor(201, 169, 97);
-        doc.setLineWidth(1);
-        doc.roundedRect(15, yPos, 180, 50, 3, 3);
+        doc.setLineWidth(2);
+        doc.roundedRect(15, yPos, 180, 50, 5, 5);
         
-        doc.setFontSize(14);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(17, 24, 39);
-        doc.text('📊 Estadísticas Personales', 105, yPos + 12, { align: 'center' });
+        doc.text('📊 Estadísticas Personales', 105, yPos + 13, { align: 'center' });
+        
+        doc.setDrawColor(201, 169, 97);
+        doc.line(25, yPos + 18, 185, yPos + 18);
         
         doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
+        doc.setTextColor(107, 114, 128);
         
-        doc.text('Total Intentos:', 25, yPos + 28);
+        doc.text('Total Intentos:', 30, yPos + 30);
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
         doc.setTextColor(79, 70, 229);
-        doc.text(totalIntentosEst.toString(), 65, yPos + 28);
+        doc.text(totalIntentosEst.toString(), 30, yPos + 42);
         
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Promedio:', 95, yPos + 28);
+        doc.setFontSize(11);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Promedio:', 85, yPos + 30);
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
         doc.setTextColor(16, 185, 129);
-        doc.text(promedioEst, 125, yPos + 28);
+        doc.text(promedioEst, 85, yPos + 42);
         
         doc.setFont('helvetica', 'normal');
-        doc.setTextColor(55, 65, 81);
-        doc.text('Mejor Nota:', 150, yPos + 28);
+        doc.setFontSize(11);
+        doc.setTextColor(107, 114, 128);
+        doc.text('Mejor Nota:', 140, yPos + 30);
         doc.setFont('helvetica', 'bold');
+        doc.setFontSize(20);
         doc.setTextColor(201, 169, 97);
-        doc.text(mejorNota, 180, yPos + 28);
+        doc.text(mejorNota, 140, yPos + 42);
 
         yPos += 60;
 
-        // Detalles por universidad
-        doc.setFontSize(14);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
         doc.text('🎓 Detalles por Universidad', 20, yPos);
-        yPos += 10;
+        yPos += 12;
 
         estudiante.universidades_acceso.forEach(uni => {
-            if (yPos > 250) {
+            if (yPos > 245) {
                 doc.addPage();
                 yPos = 20;
             }
 
+            doc.setFillColor(240, 240, 240);
+            doc.roundedRect(16, yPos + 1, 180, 12, 2, 2, 'F');
+            
             doc.setFillColor(201, 169, 97);
-            doc.roundedRect(15, yPos, 180, 10, 2, 2, 'F');
+            doc.roundedRect(15, yPos, 180, 12, 2, 2, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(12);
+            doc.setFontSize(13);
             doc.setFont('helvetica', 'bold');
-            doc.text(uni, 20, yPos + 7);
+            doc.text(uni, 20, yPos + 8);
 
-            yPos += 14;
+            yPos += 16;
 
             const intentosUni = intentosEstudiante.filter(int => int.universidad === uni);
 
@@ -798,10 +801,10 @@ function generarPDFIndividual(usuarioId) {
                     }
 
                     doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(11);
+                    doc.setFontSize(12);
                     doc.setFont('helvetica', 'bold');
                     doc.text(`📚 ${materia}`, 20, yPos);
-                    yPos += 6;
+                    yPos += 7;
 
                     intentosPorMateria[materia].forEach(intento => {
                         if (yPos > 280) {
@@ -809,13 +812,14 @@ function generarPDFIndividual(usuarioId) {
                             yPos = 20;
                         }
                         doc.setFont('helvetica', 'normal');
+                        doc.setFontSize(10);
                         doc.setTextColor(55, 65, 81);
                         const porcentaje = ((intento.nota / (intento.notaMaxima || 10)) * 100).toFixed(0);
                         doc.text(`    • Intento #${intento.intento}: ${intento.nota.toFixed(1)}/${intento.notaMaxima || 10} (${porcentaje}%) | ${intento.fecha} ${intento.hora}`, 25, yPos);
                         yPos += 5;
                     });
 
-                    yPos += 3;
+                    yPos += 4;
                 });
             } else {
                 doc.setTextColor(156, 163, 175);
@@ -825,16 +829,19 @@ function generarPDFIndividual(usuarioId) {
                 yPos += 6;
             }
 
-            yPos += 8;
+            yPos += 10;
         });
 
-        // Footer
         const pageCount = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
+            doc.setDrawColor(201, 169, 97);
+            doc.setLineWidth(0.5);
+            doc.line(20, 285, 190, 285);
             doc.setFontSize(8);
             doc.setTextColor(156, 163, 175);
-            doc.text(`Página ${i} de ${pageCount} | Sparta Academy © ${new Date().getFullYear()}`, 105, 290, { align: 'center' });
+            doc.text(`Página ${i} de ${pageCount}`, 105, 290, { align: 'center' });
+            doc.text(`Sparta Academy © ${new Date().getFullYear()}`, 105, 294, { align: 'center' });
         }
 
         doc.save(`Reporte-${estudiante.nombre.replace(/\s+/g, '-')}-${new Date().getTime()}.pdf`);
