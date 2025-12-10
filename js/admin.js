@@ -75,25 +75,35 @@ async function cargarDatos() {
         const { data: materias, error: errorMaterias } = await supabaseClient
             .from('materias')
             .select('*')
-            .eq('activo', true);
+            .eq('activo', true)
+            .order('nombre', { ascending: true });
 
         if (errorMaterias) {
             console.error('Error cargando materias:', errorMaterias);
             todasLasMaterias = [];
         } else {
             todasLasMaterias = materias || [];
-            console.log(`✅ ${todasLasMaterias.length} materias cargadas`);
+            console.log(`✅ ${todasLasMaterias.length} materias cargadas desde Supabase`);
+            
+            // Limpiar el objeto de materias por universidad
+            Object.keys(UNIVERSIDADES_MATERIAS).forEach(key => {
+                UNIVERSIDADES_MATERIAS[key] = [];
+            });
             
             // Organizar materias por universidad
             todasLasMaterias.forEach(materia => {
-                if (materia.universidad_id && UNIVERSIDADES_MATERIAS[materia.universidad_id]) {
-                    UNIVERSIDADES_MATERIAS[materia.universidad_id].push({
+                const uniId = materia.universidad_id;
+                if (uniId && UNIVERSIDADES_MATERIAS[uniId]) {
+                    UNIVERSIDADES_MATERIAS[uniId].push({
                         id: materia.id,
                         nombre: materia.nombre,
                         codigo: materia.codigo
                     });
                 }
             });
+            
+            // Debug: mostrar materias por universidad
+            console.log('Materias por universidad:', UNIVERSIDADES_MATERIAS);
         }
 
         // 3. Cargar intentos desde Supabase
@@ -129,7 +139,10 @@ async function cargarDatos() {
                     notaMaxima: parseFloat(intento.total_preguntas || 10),
                     fecha: intento.fecha_inicio ? new Date(intento.fecha_inicio).toISOString().split('T')[0] : 'N/A',
                     hora: intento.fecha_inicio ? new Date(intento.fecha_inicio).toTimeString().split(' ')[0].substring(0, 5) : 'N/A',
-                    duracion: intento.duracion_minutos || 0
+                    duracion: intento.duracion_minutos || 0,
+                    correctas: intento.preguntas_correctas || 0,
+                    incorrectas: intento.preguntas_incorrectas || 0,
+                    blanco: intento.preguntas_blanco || 0
                 };
             });
             
@@ -173,16 +186,22 @@ function actualizarMateriasDisponibles() {
     
     if (universidadSeleccionada === 'TODAS') {
         const materiasUnicas = new Set();
-        todasLasMaterias.forEach(m => materiasUnicas.add(m.nombre));
+        todasLasMaterias.forEach(m => {
+            if (m.nombre) materiasUnicas.add(m.nombre);
+        });
         
-        materiasUnicas.forEach(nombre => {
+        Array.from(materiasUnicas).sort().forEach(nombre => {
             const option = document.createElement('option');
             option.value = nombre;
             option.textContent = nombre;
             selectMateria.appendChild(option);
         });
+        
+        console.log(`Materias en selector (TODAS): ${materiasUnicas.size}`);
     } else {
         const materiasUniversidad = UNIVERSIDADES_MATERIAS[universidadSeleccionada] || [];
+        console.log(`Materias en ${universidadSeleccionada}:`, materiasUniversidad);
+        
         materiasUniversidad.forEach(materia => {
             const option = document.createElement('option');
             option.value = materia.nombre;
@@ -379,7 +398,7 @@ function mostrarError(mensaje) {
     `;
 }
 
-// ==================== GENERACIÓN DE PDFs ====================
+// ==================== GENERACIÓN DE PDFs CON GRÁFICOS ====================
 
 function generarPDFGeneral() {
     try {
@@ -401,68 +420,174 @@ function generarPDFGeneral() {
         }
         estudiantesFiltrados.sort((a, b) => a.nombre.localeCompare(b.nombre));
 
-        let yPos = 20;
-
-        doc.setFillColor(201, 169, 97);
-        doc.rect(0, 0, 210, 45, 'F');
-        
-        doc.setTextColor(255, 255, 255);
-        doc.setFontSize(26);
-        doc.setFont('helvetica', 'bold');
-        doc.text('SPARTA ACADEMY', 105, 20, { align: 'center' });
-        
-        doc.setFontSize(14);
-        doc.setFont('helvetica', 'normal');
-        doc.text('Reporte General de Intentos de Aspirantes', 105, 32, { align: 'center' });
-
-        yPos = 55;
-
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(10);
-        doc.text(`Fecha: ${new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}`, 20, yPos);
-        yPos += 6;
-        doc.text(`Universidad: ${universidadFiltro}`, 20, yPos);
-        yPos += 6;
-        doc.text(`Materia: ${materiaFiltro}`, 20, yPos);
-        yPos += 12;
-
         const intentosFiltrados = todosLosIntentos.filter(int => {
             if (universidadFiltro !== 'TODAS' && int.universidad !== universidadFiltro) return false;
             if (materiaFiltro !== 'TODAS' && int.materia !== materiaFiltro) return false;
             return estudiantesFiltrados.some(e => e.usuario === int.usuario);
         });
 
+        // ========== PÁGINA 1: PORTADA Y ESTADÍSTICAS ==========
+        
+        // Portada con diseño mejorado
+        doc.setFillColor(201, 169, 97);
+        doc.rect(0, 0, 210, 100, 'F');
+        
+        // Patrón decorativo
+        doc.setDrawColor(184, 149, 79);
+        doc.setLineWidth(0.5);
+        for (let i = 0; i < 10; i++) {
+            doc.line(0, i * 10, 210, i * 10);
+        }
+        
+        doc.setTextColor(255, 255, 255);
+        doc.setFontSize(36);
+        doc.setFont('helvetica', 'bold');
+        doc.text('SPARTA ACADEMY', 105, 40, { align: 'center' });
+        
+        doc.setFontSize(18);
+        doc.setFont('helvetica', 'normal');
+        doc.text('Reporte General de Aspirantes', 105, 55, { align: 'center' });
+        
+        doc.setFontSize(12);
+        doc.text(`${new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}`, 105, 70, { align: 'center' });
+        
+        // Estadísticas principales
+        let yPos = 115;
+        
+        doc.setFillColor(249, 250, 251);
+        doc.roundedRect(15, yPos, 180, 80, 3, 3, 'F');
+        doc.setDrawColor(201, 169, 97);
+        doc.setLineWidth(2);
+        doc.roundedRect(15, yPos, 180, 80, 3, 3);
+        
+        doc.setTextColor(17, 24, 39);
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
+        doc.text('📊 ESTADÍSTICAS GENERALES', 105, yPos + 12, { align: 'center' });
+        
         const totalEstudiantes = estudiantesFiltrados.length;
         const totalIntentos = intentosFiltrados.length;
         const promedioGeneral = totalIntentos > 0 
             ? (intentosFiltrados.reduce((sum, i) => sum + i.nota, 0) / totalIntentos).toFixed(2)
             : '0.00';
-
-        doc.setFillColor(249, 250, 251);
-        doc.rect(15, yPos, 180, 30, 'F');
-        doc.setDrawColor(201, 169, 97);
-        doc.setLineWidth(1);
-        doc.rect(15, yPos, 180, 30);
+        const estudiantesConIntentos = new Set(intentosFiltrados.map(i => i.usuario)).size;
         
-        doc.setFontSize(12);
-        doc.setFont('helvetica', 'bold');
-        doc.setTextColor(17, 24, 39);
-        doc.text('Estadísticas Generales', 20, yPos + 8);
-        
-        doc.setFontSize(10);
+        // Tarjetas de estadísticas
+        doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(55, 65, 81);
-        doc.text(`Total de estudiantes: ${totalEstudiantes}`, 20, yPos + 16);
-        doc.text(`Total de intentos: ${totalIntentos}`, 20, yPos + 23);
-        doc.text(`Promedio general: ${promedioGeneral}`, 105, yPos + 16);
-
-        yPos += 40;
-
+        
+        doc.text('Total Estudiantes', 25, yPos + 30);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(201, 169, 97);
+        doc.text(totalEstudiantes.toString(), 25, yPos + 42);
+        
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Total Intentos', 75, yPos + 30);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(79, 70, 229);
+        doc.text(totalIntentos.toString(), 75, yPos + 42);
+        
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Promedio', 130, yPos + 30);
+        doc.setFontSize(24);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(16, 185, 129);
+        doc.text(promedioGeneral, 130, yPos + 42);
+        
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Con Intentos', 25, yPos + 58);
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(239, 68, 68);
+        doc.text(estudiantesConIntentos.toString(), 25, yPos + 70);
+        
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Universidad', 75, yPos + 58);
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
+        doc.setTextColor(30, 64, 175);
+        doc.text(universidadFiltro, 75, yPos + 70);
+        
+        doc.setFontSize(11);
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Materia', 130, yPos + 58);
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(180, 83, 9);
+        doc.text(materiaFiltro.length > 15 ? materiaFiltro.substring(0, 12) + '...' : materiaFiltro, 130, yPos + 70);
+        
+        // ========== GRÁFICO DE BARRAS (simulado con rectángulos) ==========
+        yPos = 210;
+        
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(17, 24, 39);
+        doc.text('📈 Distribución de Notas', 20, yPos);
+        
+        // Calcular distribución
+        const rangosNotas = { '0-3': 0, '4-6': 0, '7-10': 0 };
+        intentosFiltrados.forEach(int => {
+            const nota = int.nota;
+            if (nota <= 3) rangosNotas['0-3']++;
+            else if (nota <= 6) rangosNotas['4-6']++;
+            else rangosNotas['7-10']++;
+        });
+        
+        const maxAltura = 40;
+        const maxValor = Math.max(...Object.values(rangosNotas), 1);
+        
+        yPos += 10;
+        const barWidth = 40;
+        const barSpacing = 20;
+        let xPos = 30;
+        
+        Object.entries(rangosNotas).forEach(([rango, valor], index) => {
+            const altura = (valor / maxValor) * maxAltura;
+            const colors = [[239, 68, 68], [251, 191, 36], [16, 185, 129]];
+            
+            doc.setFillColor(...colors[index]);
+            doc.rect(xPos, yPos + maxAltura - altura, barWidth, altura, 'F');
+            
+            doc.setDrawColor(201, 169, 97);
+            doc.setLineWidth(1);
+            doc.rect(xPos, yPos + maxAltura - altura, barWidth, altura);
+            
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'bold');
+            doc.setTextColor(0, 0, 0);
+            doc.text(rango, xPos + barWidth / 2, yPos + maxAltura + 8, { align: 'center' });
+            
+            doc.setFontSize(12);
+            doc.setTextColor(255, 255, 255);
+            if (valor > 0) {
+                doc.text(valor.toString(), xPos + barWidth / 2, yPos + maxAltura - altura / 2 + 2, { align: 'center' });
+            }
+            
+            xPos += barWidth + barSpacing;
+        });
+        
+        doc.addPage();
+        
+        // ========== DETALLES POR ESTUDIANTE ==========
+        yPos = 20;
+        
+        doc.setFontSize(16);
+        doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
-        doc.text('Detalles por Estudiante', 20, yPos);
-        yPos += 8;
+        doc.text('👥 Detalles por Estudiante', 20, yPos);
+        yPos += 10;
 
         estudiantesFiltrados.forEach((estudiante, index) => {
             if (yPos > 260) {
@@ -470,14 +595,15 @@ function generarPDFGeneral() {
                 yPos = 20;
             }
 
+            // Encabezado del estudiante
             doc.setFillColor(201, 169, 97);
-            doc.rect(15, yPos, 180, 8, 'F');
+            doc.roundedRect(15, yPos, 180, 10, 2, 2, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(11);
+            doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text(`${index + 1}. ${estudiante.nombre}`, 20, yPos + 6);
+            doc.text(`${index + 1}. ${estudiante.nombre}`, 20, yPos + 7);
 
-            yPos += 12;
+            yPos += 14;
 
             const universidadesParaMostrar = universidadFiltro === 'TODAS' 
                 ? estudiante.universidades_acceso 
@@ -493,7 +619,7 @@ function generarPDFGeneral() {
                 doc.setTextColor(0, 0, 0);
                 doc.setFontSize(10);
                 doc.setFont('helvetica', 'bold');
-                doc.text(`Universidad: ${uni}`, 20, yPos);
+                doc.text(`🎓 ${uni}`, 20, yPos);
                 yPos += 6;
 
                 if (intentosEstudiante.length > 0) {
@@ -504,7 +630,8 @@ function generarPDFGeneral() {
                         }
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(55, 65, 81);
-                        doc.text(`  • ${intento.materia} | Intento #${intento.intento} | Nota: ${intento.nota.toFixed(1)}/${intento.notaMaxima || 10} | ${intento.fecha} ${intento.hora}`, 25, yPos);
+                        const porcentaje = ((intento.nota / (intento.notaMaxima || 10)) * 100).toFixed(0);
+                        doc.text(`  • ${intento.materia} | Nota: ${intento.nota.toFixed(1)}/${intento.notaMaxima || 10} (${porcentaje}%) | ${intento.fecha}`, 25, yPos);
                         yPos += 5;
                     });
                 } else {
@@ -520,6 +647,7 @@ function generarPDFGeneral() {
             yPos += 5;
         });
 
+        // Footer en todas las páginas
         const pageCount = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
@@ -547,81 +675,110 @@ function generarPDFIndividual(usuarioId) {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
 
+        // ========== PORTADA ==========
         doc.setFillColor(201, 169, 97);
-        doc.rect(0, 0, 210, 45, 'F');
+        doc.rect(0, 0, 210, 80, 'F');
         
         doc.setTextColor(255, 255, 255);
-        doc.setFontSize(26);
+        doc.setFontSize(32);
         doc.setFont('helvetica', 'bold');
-        doc.text('SPARTA ACADEMY', 105, 20, { align: 'center' });
+        doc.text('SPARTA ACADEMY', 105, 30, { align: 'center' });
         
-        doc.setFontSize(14);
+        doc.setFontSize(16);
         doc.setFont('helvetica', 'normal');
-        doc.text('Reporte Individual de Aspirante', 105, 32, { align: 'center' });
-
-        let yPos = 60;
-
-        doc.setTextColor(0, 0, 0);
-        doc.setFontSize(18);
-        doc.setFont('helvetica', 'bold');
-        doc.text(estudiante.nombre, 20, yPos);
+        doc.text('Reporte Individual de Aspirante', 105, 45, { align: 'center' });
         
-        yPos += 10;
-        doc.setFontSize(10);
+        doc.setFontSize(12);
+        doc.text(new Date().toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' }), 105, 60, { align: 'center' });
+
+        let yPos = 95;
+
+        // Info del estudiante
+        doc.setFillColor(249, 250, 251);
+        doc.roundedRect(15, yPos, 180, 30, 3, 3, 'F');
+        doc.setDrawColor(201, 169, 97);
+        doc.setLineWidth(2);
+        doc.roundedRect(15, yPos, 180, 30, 3, 3);
+        
+        doc.setTextColor(17, 24, 39);
+        doc.setFontSize(20);
+        doc.setFont('helvetica', 'bold');
+        doc.text(estudiante.nombre, 105, yPos + 12, { align: 'center' });
+        
+        doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(55, 65, 81);
-        doc.text(`Usuario: ${estudiante.usuario}`, 20, yPos);
-        
-        yPos += 6;
-        doc.text(`Fecha de reporte: ${new Date().toLocaleDateString('es-ES')}`, 20, yPos);
-        
-        yPos += 15;
+        doc.text(`Usuario: ${estudiante.usuario}`, 105, yPos + 22, { align: 'center' });
 
+        yPos += 40;
+
+        // Estadísticas personales
         const intentosEstudiante = intentosPorEstudiante.get(estudiante.usuario) || [];
         const totalIntentosEst = intentosEstudiante.length;
         const promedioEst = totalIntentosEst > 0
             ? (intentosEstudiante.reduce((sum, i) => sum + i.nota, 0) / totalIntentosEst).toFixed(2)
             : '0.00';
+        const mejorNota = totalIntentosEst > 0
+            ? Math.max(...intentosEstudiante.map(i => i.nota)).toFixed(1)
+            : '0.0';
 
         doc.setFillColor(249, 250, 251);
-        doc.rect(15, yPos, 180, 25, 'F');
+        doc.roundedRect(15, yPos, 180, 50, 3, 3, 'F');
         doc.setDrawColor(201, 169, 97);
         doc.setLineWidth(1);
-        doc.rect(15, yPos, 180, 25);
+        doc.roundedRect(15, yPos, 180, 50, 3, 3);
         
-        doc.setFontSize(12);
+        doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(17, 24, 39);
-        doc.text('Estadísticas del Estudiante', 20, yPos + 8);
+        doc.text('📊 Estadísticas Personales', 105, yPos + 12, { align: 'center' });
         
-        doc.setFontSize(10);
+        doc.setFontSize(11);
         doc.setFont('helvetica', 'normal');
         doc.setTextColor(55, 65, 81);
-        doc.text(`Total de intentos: ${totalIntentosEst}`, 20, yPos + 18);
-        doc.text(`Promedio: ${promedioEst}`, 105, yPos + 18);
+        
+        doc.text('Total Intentos:', 25, yPos + 28);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(79, 70, 229);
+        doc.text(totalIntentosEst.toString(), 65, yPos + 28);
+        
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Promedio:', 95, yPos + 28);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(16, 185, 129);
+        doc.text(promedioEst, 125, yPos + 28);
+        
+        doc.setFont('helvetica', 'normal');
+        doc.setTextColor(55, 65, 81);
+        doc.text('Mejor Nota:', 150, yPos + 28);
+        doc.setFont('helvetica', 'bold');
+        doc.setTextColor(201, 169, 97);
+        doc.text(mejorNota, 180, yPos + 28);
 
-        yPos += 35;
+        yPos += 60;
 
+        // Detalles por universidad
         doc.setFontSize(14);
         doc.setFont('helvetica', 'bold');
         doc.setTextColor(0, 0, 0);
-        doc.text('Detalles por Universidad', 20, yPos);
+        doc.text('🎓 Detalles por Universidad', 20, yPos);
         yPos += 10;
 
         estudiante.universidades_acceso.forEach(uni => {
-            if (yPos > 260) {
+            if (yPos > 250) {
                 doc.addPage();
                 yPos = 20;
             }
 
             doc.setFillColor(201, 169, 97);
-            doc.rect(15, yPos, 180, 8, 'F');
+            doc.roundedRect(15, yPos, 180, 10, 2, 2, 'F');
             doc.setTextColor(255, 255, 255);
-            doc.setFontSize(11);
+            doc.setFontSize(12);
             doc.setFont('helvetica', 'bold');
-            doc.text(uni, 20, yPos + 6);
+            doc.text(uni, 20, yPos + 7);
 
-            yPos += 12;
+            yPos += 14;
 
             const intentosUni = intentosEstudiante.filter(int => int.universidad === uni);
 
@@ -635,15 +792,15 @@ function generarPDFIndividual(usuarioId) {
                 });
 
                 Object.keys(intentosPorMateria).forEach(materia => {
-                    if (yPos > 275) {
+                    if (yPos > 270) {
                         doc.addPage();
                         yPos = 20;
                     }
 
                     doc.setTextColor(0, 0, 0);
-                    doc.setFontSize(10);
+                    doc.setFontSize(11);
                     doc.setFont('helvetica', 'bold');
-                    doc.text(`• ${materia}`, 20, yPos);
+                    doc.text(`📚 ${materia}`, 20, yPos);
                     yPos += 6;
 
                     intentosPorMateria[materia].forEach(intento => {
@@ -653,7 +810,8 @@ function generarPDFIndividual(usuarioId) {
                         }
                         doc.setFont('helvetica', 'normal');
                         doc.setTextColor(55, 65, 81);
-                        doc.text(`    Intento #${intento.intento}: ${intento.nota.toFixed(1)}/${intento.notaMaxima || 10} pts | ${intento.fecha} ${intento.hora}`, 25, yPos);
+                        const porcentaje = ((intento.nota / (intento.notaMaxima || 10)) * 100).toFixed(0);
+                        doc.text(`    • Intento #${intento.intento}: ${intento.nota.toFixed(1)}/${intento.notaMaxima || 10} (${porcentaje}%) | ${intento.fecha} ${intento.hora}`, 25, yPos);
                         yPos += 5;
                     });
 
@@ -670,6 +828,7 @@ function generarPDFIndividual(usuarioId) {
             yPos += 8;
         });
 
+        // Footer
         const pageCount = doc.internal.getNumberOfPages();
         for (let i = 1; i <= pageCount; i++) {
             doc.setPage(i);
