@@ -8,6 +8,14 @@
         "universidades_acceso": ["EPN", "UCE", "ESPE", "UNACH", "UTC", "UTN", "YACHAY"]
     },
     {
+        "usuario": "sebas216.215@gmail.com",
+        "contrasena": "root",
+        "nombre": "Sebastian Paucar",
+        "rol": "admin",
+        "ciudad": "Tulcán",
+        "universidades_acceso": ["UCE", "ESPE", "UNACH", "UTC", "UTN", "YACHAY"]
+    },
+    {
         "usuario": "jennifer_tulcan",
         "contrasena": "jennifer_tulcan",
         "nombre": "Jennifer Tulcán",
